@@ -1,0 +1,237 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block styles %}
+<style>    
+  .img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; 
+  }
+  
+  .wrap {
+    width: 100%;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); 
+  }
+  
+  .text-wrap, .login-wrap {
+    width: 50%; 
+  }
+
+  @media (max-width: 991.98px) {
+    .text-wrap, .login-wrap {
+      width: 100%; 
+    } 
+  }
+    
+  .text-wrap .text h2 {
+    font-weight: 900;
+    color: #fff; 
+  }  
+  .text-wrap {
+    position: relative;
+    background: #fff; 
+  }
+  .text-wrap p {
+    font-size: 12px;
+    font-weight: 900; 
+  }
+
+  .login-wrap {
+    background: #ff5821;
+    background: -moz-linear-gradient(-45deg, #ff5821 0%, #f35587 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, #ff5821), color-stop(100%, #f35587));
+    background: -webkit-linear-gradient(-45deg, #ff5821 0%, #f35587 100%);
+    background: -o-linear-gradient(-45deg, #ff5821 0%, #f35587 100%);
+    background: -ms-linear-gradient(-45deg, #ff5821 0%, #f35587 100%);
+    background: -webkit-linear-gradient(315deg, #ff5821 0%, #f35587 100%);
+    background: -o-linear-gradient(315deg, #ff5821 0%, #f35587 100%);
+    background: linear-gradient(135deg, #ff5821 0%, #f35587 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5821', endColorstr='#f35587', GradientType=1 );
+    color: #fff; 
+  }
+  .login-wrap .form-group {
+    position: relative; 
+  }
+  .login-wrap .form-group .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #000;
+    font-weight: 700; 
+  }
+  .login-wrap .form-group a {
+    color: gray; 
+  }  
+  .login-wrap .form-control {
+    height: 48px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #000;
+    font-size: 16px;
+    border-radius: 50px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out; 
+  }
+  .login-wrap .input-group .input-group-text {
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 24px;
+    box-shadow: none;
+    border: 1px solid transparent;
+    height: 48px;
+  }
+    
+  @media (prefers-reduced-motion: reduce) {
+    .login-wrap .form-control {
+      -webkit-transition: none;
+      -o-transition: none;
+      transition: none; 
+    } 
+  }
+
+  .login-wrap .form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: black !important; 
+  }
+  .login-wrap .form-control::-moz-placeholder {
+    /* Firefox 19+ */
+    color: black !important; 
+  }
+  .login-wrap .form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    color: black !important; 
+  }
+  .login-wrap .form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: black !important; 
+  }
+  .login-wrap .form-control:focus, .form-control:active {
+    outline: none !important;
+    border-color: transparent; 
+  }
+  
+  .login-wrap .btn {
+    cursor: pointer;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 50px; 
+  }
+  .login-wrap .btn:hover, .btn:active, .btn:focus {
+    outline: none; 
+  }
+  .login-wrap .btn.btn-primary {
+    color: #fff;      
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f75959', endColorstr='#f35587', GradientType=1 ); 
+  }
+  .login-wrap .btn.btn-primary:hover {
+    border: 1px solid #f35588;
+    background: #f35588;
+    color: #fff; 
+  }
+
+  .login-wrap .btn.btn-primary.btn-outline-primary {
+    border: 1px solid #f35588;
+    border-radius: 50px;
+    background: transparent;
+    color: #f35588; 
+  }
+  .login-wrap .btn.btn-primary.btn-outline-primary:hover {
+    border: 1px solid transparent;
+    background: #f35588;
+    color: #fff; 
+  }
+  .login-wrap .btn.btn-white {
+    background: #fff;
+    border: 1px solid #fff;
+    color: #000; 
+  }
+  .login-wrap .btn.btn-white:hover {
+    border: 1px solid #fff;
+    background: red;
+    color:#fff
+  }
+
+  .login-wrap a {
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 20px;
+  }
+  .login-wrap a:hover {
+    font-size: 18px;
+  }
+
+  .modal {
+    margin-top: 60px;
+  }
+
+  .modal-body {
+    background: lightgray;
+  }
+
+  @media (min-width: 1024px) {
+    #hero {
+      height: 89vh;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+  <!-- ======= Hero Section ======= -->
+  <section id="team" class="align-items-center">
+    <div class="container" data-aos="fade-in">
+
+      <div class="row justify-content-center pt-3">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last d-none d-sm-block">
+              <div class="text w-100">
+                <img src="{{ url_for('static', filename='/img/sentiment+analysis.png') }}" class="img-fluid d-block mx-auto">
+                <h2 class="text-muted pt-5">SENTIMENT ANALYSIS</h2>
+              </div>
+            </div>
+            
+            <div class="login-wrap p-4 p-lg-5">
+              <div class="d-flex">
+                <div class="w-100">
+                  <h3 class="mb-4 text-center mb-5">Buat Password Baru</h3>
+                </div>
+              </div>
+              <form action="{{url_for('auth.reset_passwd')}}" method="POST" class="signin-form">
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />        
+                <input type="text" class="form-control mb-3" value="{{ session.get('email') }}" name="email" readonly>
+                <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password baru Anda" name="new_password" id="password" oninput="verifyPassword('password')" required>
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-eye-slash" style="margin-right: 10px;" onclick="showPasswd('password')" id="showpass"></i></span>
+                </div>
+                <div id="description" class="fs-6 px-3"></div>
+                <input type="text" class="form-control mb-5 mt-3" placeholder="Kode verifikasi" name="otp" required>
+                <div class="form-group d-flex justify-content-around">
+                    <button type="button" class="btn btn-secondary rounded-0 w-50" onclick=location.href="{{ url_for('auth.login') }}">Batal</button>
+                    <button type="submit" class="btn btn-white submit rounded-0 w-50" id="submit" disabled>Ganti Password</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </section><!-- End Hero -->
+
+{% endblock %}
+

@@ -1,0 +1,37 @@
+    <!-- ======= About Section ======= -->
+    <section id="what" class="about">
+        <div class="container">
+
+          <div class="section-title" data-aos="fade-up">
+                <h2>Metode yang digunakan</h2>
+                <p>Metode yang umumnya digunakan untuk melakukan analisis sentimen, adalah pendekatan <strong>Pembelajaran Mesin</strong> dan pendekatan <strong>Berbasis Leksikon</strong> atau gabungan keduanya (hasil pendekatan leksikon digunakan untuk memberi label dataset saat pelatihan pembelajaran mesin).</p>
+          </div>
+
+          <div class="col-12 icon-boxes py-2 px-lg-5">
+            <img src="{{ url_for('static', filename='/img/algo.jpeg') }}" class="img-fluid d-flex mx-auto mt-2">
+          </div>
+  
+          <div class="row">            
+              <div class="icon-box col-lg-6 col-md-12" data-aos="fade-up">
+                <div class="icon"><i class="bx bx-network-chart"></i></div>
+                <h4 class="title"><a href="">Machine Learning</a></h4>
+                <p class="description">
+                    Pendekatan ini menggunakan teknik machine learning (ML) dan algoritma klasifikasi sentimen, seperti jaringan neural dan deep learning, untuk mengajari perangkat lunak komputer mengidentifikasi sentimen emosional dari teks. Proses ini melibatkan pembuatan model analisis sentimen dan melatihnya berulang kali di data yang diketahui sehingga dapat menebak sentimen di data yang tidak diketahui dengan akurasi tinggi.
+                    Meskipun pendekatan machine learning pada sentiment analysis sangat efektif, namun model yang dihasilkan sangat bergantung pada kualitas dan jumlah data training yang digunakan. Keterbatasan dalam jumlah data training dan kurangnya variasi dalam data dapat menghasilkan model yang kurang akurat.
+                </p>
+              </div>
+  
+              <div class="icon-box col-lg-6 col-md-12" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon"><i class="bx bx-book-bookmark"></i></div>
+                <h4 class="title"><a href="">Lexicon Based</a></h4>
+                <p class="description">
+                    Lexicon based bekerja dengan menghitung nilai sentimen dari tiap kata yang terdapat dalam suatu teks. Pada jenis ini, diperlukan kamus kata unik (lexicon) dengan bobot sentimen yang diberikan untuk masing-masing kata. Nilai dari tiap kata kemudian dijumlahkan dan dirata-rata untuk mendapatkan hasil sentimen dalam suatu kalimat.
+                    Keunggulannya adalah tidak memerlukan data pelatihan, tapi kelemahannya adalah jika ada kata yang tidak ada dalam kamus, maka dianggap bukan kalimat opini.
+                </p>
+              </div>
+  
+            </div>
+          </div>
+  
+        </div>
+      </section><!-- End About Section -->

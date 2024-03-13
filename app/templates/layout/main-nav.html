@@ -1,0 +1,28 @@
+<nav id="navbar" class="navbar">
+    <ul>
+      <li><a class="nav-link" href="{{ url_for('main') }}">Ringkasan</a></li>
+      <li><a class="nav-link" href="{{ url_for('scrape_result') }}">Hasil Scraping</a></li>
+      <li class="dropdown"><a href="{{ url_for('preprocess') }}" style="padding-right: 0px;"><span>Preprocessing</span> <i class="bi bi-chevron-down"></i></a>
+        <ul>
+          <li><a href="{{ url_for('preprocess', _anchor='casefolded') }}">Casefolding</a></li>
+          <li><a href="{{ url_for('preprocess', _anchor='tokens') }}">Tokenizing</a></li>
+          <li><a href="{{ url_for('preprocess', _anchor='normalized') }}">Normalizing</a></li>
+          <li><a href="{{ url_for('preprocess', _anchor='filtered') }}">Filtering</a></li>
+          <li><a href="{{ url_for('preprocess', _anchor='stemmed') }}">Stemming</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a href="" style="padding-right: 0px;"><span>Hasil Analisis</span> <i class="bi bi-chevron-down"></i></a>
+        <ul>
+          <li><a href="{{ url_for('vectorization') }}">Vektorisasi</a></li>
+          <li><a href="{{ url_for('classifying') }}">Klasifikasi</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a href="" style="padding-right: 0px;"><i class="bi bi-person-circle" style="font-size:24px; margin-right:5px"></i><span>{{ session.get('name') }}</span></a>
+        <ul>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('profile')}}"><i class="bi bi-person-fill" style="font-size:20px;"></i>Profil</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('logout')}}"><i class="bi bi-box-arrow-right" style="font-size:20px;"></i>Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+</nav><!-- .navbar -->

@@ -1,0 +1,404 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Hasil Scraping Komentar Video {% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'main/summary.html' %}
+    <main>
+      <nav class="floating-menu">
+        <ul class="main-menu">
+            <li>
+              <a href="#dist_freq" class="ripple" title="Distribusi Sentimen">
+                <i class="bi bi-bar-chart-line-fill" style="font-size: 1.5em;"></i>
+              </a>
+            </li>
+            <li>
+                <a href="#comments" class="ripple" title="Hasil Scraping">
+                  <i class="bi bi-chat-square-text-fill" style="font-size: 1.5em;"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#casefolded" class="ripple" title="Hasil Casefolding">
+                  <i class="bi bi-1-circle-fill" style="font-size: 1.5em;"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#tokenized" class="ripple" title="Hasil Tokenisasi">
+                  <i class="bi bi-2-circle-fill" style="font-size: 1.5em;"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#normalized" class="ripple" title="Hasil Normalisasi">
+                  <i class="bi bi-3-circle-fill" style="font-size: 1.5em;"></i>
+                </a>
+            </li>
+            <li>
+              <a href="#stemmed" class="ripple" title="Hasil Stemming">
+                <i class="bi bi-4-circle-fill" style="font-size: 1.5em;"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#filtered" class="ripple" title="Hasil Filtering">
+                <i class="bi bi-5-circle-fill" style="font-size: 1.5em;"></i>
+              </a>
+          </li>
+          <li>
+            <a href="#vectorized" class="ripple" title="Hasil Vektorisasi">
+              <i class="bi bi-6-circle-fill" style="font-size: 1.5em;"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#classified" class="ripple" title="Hasil Klasifikasi">
+              <i class="bi bi-7-circle-fill" style="font-size: 1.5em;"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#wordcloud" class="ripple" title="Awan Kata">
+              <i class="bi bi-cloudy-fill" style="font-size: 1.5em;"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="menu-bg"></div>
+    </nav>        
+        {% include 'main/dist_freq.html' %}
+        {% include 'main/comments.html' %}
+        {% include 'main/casefolded.html' %}
+        {% include 'main/tokenized.html' %}
+        {% include 'main/normalized.html' %}
+        {% include 'main/stemmed.html' %}
+        {% include 'main/filtered.html' %}
+        {% include 'main/vectorized.html' %}
+        {% include 'main/classified.html' %}
+        {% include 'main/wordcloud.html' %}
+    </main>
+
+
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable({{ dist_indobert | safe }});
+
+    var options = {
+      chart: {
+        title: 'A. Model IndoBERT',
+      },
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('chart_div'));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  }
+</script>
+<script>
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Intent', 'Persentase'],
+        {% for key, value in intent.items() %}
+            ['{{ key }}', {{ value }}],
+        {% endfor %}
+    ]);
+
+    var options = {
+      title: 'HASIL KLASIFIKASI INTENT',
+      titleTextStyle: {
+          color: '#fff',
+      },
+      backgroundColor: 'transparent',
+      chartArea: {
+        top: '5%',
+        height: '90%',
+        width: '80%'
+      },
+      legend: {
+        textStyle: { 
+          color: 'white'
+        },
+      }
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('svm'));
+    chart.draw(data, options);
+  }
+</script>
+<script>
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Sentiment', 'Persentase'],
+        {% for key, value in indobert.items() %}
+            ['{{ key }}', {{ value }}],
+        {% endfor %}
+    ]);
+    var options = {
+      title: 'HASIL KLASIFIKASI SENTIMEN',
+      titleTextStyle: {
+          color: '#fff',
+      },
+      colors: ['red', 'blue', 'green'],
+      backgroundColor: 'transparent',
+      pieHole: 0.4,
+      chartArea: {
+        height: '70%'
+      },
+      legend: { 
+        position: 'top',
+        textStyle: { 
+          color: 'white'
+        },
+        alignment: 'center',
+      },
+      pieSliceTextStyle: {
+        color: 'white',
+        fontSize: 16,
+        fontName: 'Arial',
+        bold: true
+      },
+      slices: {
+        3: {offset: 0.2}
+      }
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('indobert'));
+    chart.draw(data, options);
+  }
+</script>
+<script>
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Intent', 'Persentase'],
+        {% for key, value in intent.items() %}
+            ['{{ key }}', {{ value }}],
+        {% endfor %}
+    ]);
+    var options = {
+      title: 'Hasil Klasifikasi Intent',
+      titleTextStyle: {
+          color: '#fff',
+      },
+      // colors: ['green', 'orange', 'red'],
+      backgroundColor: 'transparent',
+      is3D: true,
+      chartArea: {
+        top: '5%',
+        height: '90%'
+      },
+      legend: { 
+        position: 'top',
+        textStyle: { 
+          color: 'white'
+        },
+        alignment: 'center'
+      },
+      pieSliceTextStyle: {
+        color: 'white',
+        fontSize: 16,
+        fontName: 'Arial',
+        bold: true
+      },
+      slices: {
+        1: {offset: 0.2},
+        2: {offset: 0.1}
+      }
+    };
+    var chart = new google.visualization.PieChart(document.getElementById(''));
+    chart.draw(data, options);
+  }
+</script>
+<script>
+  google.charts.load('current', {packages: ['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable({{ dist_words | safe }});
+  
+    var options = {
+      height: 400,
+      chartArea: {
+        top: '5%',
+        height: '60%'
+      },
+      legend: { position: 'none' },
+      hAxis: {
+        slantedText: true, 
+        slantedTextAngle: 90,
+        textStyle: {
+          fontSize: 12,
+          color: '#4d4d4d'
+        }
+      },
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById(''));
+    chart.draw(data, options);
+  }  
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var menuItems = document.querySelectorAll(".main-menu a");
+
+    menuItems.forEach(function (menuItem) {
+      menuItem.addEventListener("click", function (event) {
+        // Remove active class from all menu items
+        menuItems.forEach(function (item) {
+          item.classList.remove("active");
+        });
+
+        // Add active class to the clicked menu item
+        menuItem.classList.add("active");
+      });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#casefolded_tbl,#filtered_tbl,#tokens_tbl,#stemmed_tbl').DataTable( {
+        dom: 'frtip',
+        columnDefs: [ {
+            width: "50%",
+            target: [1, 2]
+        } ],
+    } );
+    $('#classifying_tbl').DataTable( {
+        dom: 'frtip',
+        columnDefs: [ {
+            targets: [1,2],
+            width: "30%"
+        } ],
+    } );
+    $('#corpus_tbl').DataTable( {
+        dom: 'fr',
+        columnDefs: [ {
+            targets: [1,2],
+            width: "30%"
+        } ],
+    } );
+    $('#vectors_tbl').DataTable( {
+        dom: 'frtip',
+        columnDefs: [ {
+            targets: [1],
+            width: "50%"
+        } ],
+    } );
+    $('#raw_tbl').DataTable( {
+        dom: 'frtip',
+        ordering: false,
+        autoWidth: false,
+        columns: [
+            { "width": "5%" },
+            { "width": "15%" },
+            { "width": "50%" },
+            { "width": "10%" },
+            { "width": "10%" },
+            { "width": "10%" },
+        ],
+    } );
+    $('#normalizing_tbl').DataTable( {
+        dom: 'frtip',
+        autoWidth: false,
+        columns: [
+            { "width": "5%" },
+            { "width": "15%" },
+            { "width": "40%" },
+            { "width": "20%" },
+            { "width": "10%" },
+            { "width": "10%" },
+        ],
+    } );
+    $('#negation_tbl,#stopword_tbl,#positive_tbl,#negative_tbl,#root_tbl').DataTable( {
+        dom: 'frtip',
+        autoWidth: false,
+        columns: [
+            { "width": "20%" },
+            { "width": "30%" },
+            { "width": "15%" },
+            { "width": "15%" },
+            { "width": "10%" },
+        ]
+    } );
+    $('#informal_tbl,#compound_tbl').DataTable( {
+        dom: 'frtip',
+        autoWidth: false,
+        columns: [
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "26%" },
+            { "width": "12%" },
+            { "width": "12%" },
+            { "width": "10%" },
+        ]
+    } );
+    $('#normalized_tbl').DataTable( {
+        dom: 'frtip',
+        columnDefs: [ {
+            width: "50%",
+            target: [2, 3]
+        } ],
+    } );
+
+    const table = $('#normalized_tbl').DataTable();
+    $('#normalized_tbl').on('blur', 'td[contenteditable="true"]', function() {
+        var cell = table.cell(this);
+        var newValue = $(this).text();
+        var row = table.row(this.closest('tr'));
+        var rowIndex = cell.index().row;
+
+        // Update DataTable cell and trigger the change event
+        cell.data(newValue);
+        row.data(row.data());
+
+        var editedData = {
+            id: table.row(rowIndex).data()[0],
+            value: newValue,
+            csrf_token: table.row(rowIndex).data()[4]
+        };
+
+        // alert(JSON.stringify({ id: row.data().id, field: cell.index().column, value: newValue }))
+        $.ajax({
+            url: '/edit_normalisasi/',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {'X-CSRFToken': editedData.csrf_token},
+            data: JSON.stringify(editedData),
+            success: function(response) {
+                alert("Berhasil merubah data normalisasi!");
+                window.location.href = '/generate_image/';
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // Event listener untuk menanggapi penekanan tombol Enter
+    $('#normalized_tbl').on('keydown', 'td[contenteditable="true"]', function(event) {
+        var cell = table.cell(this);
+        var rowIndex = cell.index().row;
+
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            // Trigger blur event untuk menangani logika dalam handler blur
+            $(this).blur();
+        }
+    });
+
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+<html>
+    <head></head>
+    <body>
+        <img src="{{url_for('static', filename='/img/email_header.png')}}" alt="">
+        <p>Halo {{ nama }}!</p>
+        <p>Pendaftaran Anda telah diterima. Silakan klik tautan berikut untuk mengaktifkan akun Anda:</p>
+        <p><a href="{{ confirm_url }}">{{ confirm_url }}</a></p>
+        <p><strong>Harap diperhatikan tautan akan kadaluarsa setelah {{ expire }}</strong></p>
+        <br>
+        <p>Have a nice day!</p>
+    </body>
+</html>

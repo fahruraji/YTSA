@@ -1,0 +1,150 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Profil Pengguna{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+
+  <section id="profile" class="about section-bg">
+    <div class="container" data-aos="fade-in">
+
+        <div class="row justify-content-center pt-3">
+            <div class="col-12">
+                <div class="wrap d-md-flex">
+
+                    <div class="col-4 text-center">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="img-wrapper">
+                                <img src="{{ url_for('static', filename='img/'+user.foto) }}" class="rounded-circle" />
+                                <button class="btn" onClick="showElement('formUpload')">Ganti Foto</buton>
+                            </div>
+                            
+                            <div style="display:none" id="formUpload" class="m-3 mx-auto">
+                                <form method="POST" enctype="multipart/form-data" action="{{ url_for('user.upload_img')}}">
+                                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                    <input type="file" id="myFile" name="uploaded_img">
+                                    <input type="submit" value="Submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-7">
+                        <div class="row">
+                            <h3>Profil Pengguna</h3>
+                            <form action="" method="POST" class="mt-3">
+                                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                <input type="hidden" name="userid" value = "{{ user.id }}" />
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="nama" placeholder="Nama" name="nama" value="{{ user.nama }}" required>
+                                    <label for="nama">Nama</label>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="jkel" required>
+                                            <option value="{{ user.jkel }}" selected>{{ 'Laki-laki' if user.jkel == 'L' else 'Perempuan' }}</option>
+                                            <option value="{{ 'P' if user.jkel == 'L' else 'L' }}">{{ 'Perempuan' if user.jkel == 'L' else 'Laki-laki' }}</option>
+                                        </select>
+                                        <label for="floatingSelect">Jenis Kelamin</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" placeholder="Pekerjaan" id="pekerjaan" name="pekerjaan" value="{{ '' if user.pekerjaan is none else user.pekerjaan }}" required>
+                                        <label for="pekerjaan">Pekerjaan</label>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" placeholder="Nomor Telepon" id="telepon" name="telepon" value="{{ user.telepon }}" required>
+                                        <label for="telepon">No. Telepon</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" placeholder="Alamat Email" id="email" name="email" value="{{ user.username }}" required>
+                                        <label for="email">Alamat Email</label>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <textarea class="form-control" placeholder="Alamat rumah" id="alamat" style="height: 100px" name="alamat" required>{{ '' if user.alamat is none else user.alamat }}</textarea>
+                                    <label for="alamat">Alamat</label>
+                                </div>
+                                <div class="">
+                                    <button type="submit" value="submit" class="btn btn-primary w-100 py-2" id="edit-submit">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                   
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center pt-3">
+            <div class="col-12">                
+
+                <div class="row mt-5">
+                    <h3>Ubah Kata Sandi</h3>
+                    <form action="{{ url_for('user.update_password') }}" method="POST" class="mt-3">
+                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                        <input type="hidden" name="userid" value = "{{ user.id }}" />
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" placeholder="Kata Sandi" id="new_password" name="new_password" oninput="CheckPassword('new_password')" required>
+                                    <label for="new_password">Password baru</label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" onclick="showPasswd('new_password')" id="showpass">
+                                    <label class="form-check-label" for="showpass">
+                                        Tampilkan
+                                    </label>
+                                    </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" placeholder="Konfirmasi Kata Sandi" id="password_confirmation" name="password_confirmation" oninput="comparePassword()" required>
+                                    <label for="password_confirmation">Ketik ulang password</label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" onclick="showPasswd('password_confirmation')" id="showpass1">
+                                    <label class="form-check-label" for="showpass1">
+                                        Tampilkan
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <ul>
+                                    <li><small>Memiliki panjang 6-20 karakter</small> <span id="rule1"><i class="bi bi-x" style="color:red;"></i></span></li>
+                                    <li><small>Mengandung kombinasi angka, huruf kecil dan kapital</small> <span id="rule2"><i class="bi bi-x" style="color:red;"></i></span></li>
+                                    <li><small>Password konfirmasi cocok dengan password baru</small> <span id="rule3"><i class="bi bi-x" style="color:red;"></i></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="float-end">
+                            <button type="submit" value="submit" id="change_password" class="btn btn-primary px-5 py-2" disabled>Ganti Sandi</button>
+                        </div>
+                    </form>
+                </div>
+                  
+            </div>
+        </div>
+
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}

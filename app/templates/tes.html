@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ title|title }}{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+  <section id="corpus" class="about">
+    <div class="container" data-aos="fade-in">
+        {{ data }}
+        {{ data2 }}
+    </div>
+  </section>
+
+{% endblock %}

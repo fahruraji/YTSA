@@ -1,0 +1,27 @@
+ 
+      <section id="wordcloud" class="">
+        <div class="container">
+            <hr class="mt-0 mb-5"/>
+            <div class="section-title mb-3">
+                <h3 data-aos="fade-down">AWAN KATA</h3>
+                <p data-aos="fade-up">
+                    Awan kata (wordcloud) menunjukkan daftar kata-kata yang digunakan dalam sebuah teks. Semakin sering sebuah kata 
+                    muncul atau digunakan di dalam teks, maka semakin besar ukuran kata tersebut tampil dalam gambar.
+                </p>
+            </div>
+            <div class="d-flex justify-content-around"  data-aos="fade-in">
+                {% if pos_words %}
+                <div class="d-flex flex-column">
+                    <img src="{{url_for('static', filename='img/wordclouds/positif/svm_'+id+'.png')}}" class="img-fluid d-block mx-auto">
+                    <h5 class="text-primary text-center">Sentimen Positif</h5>
+                </div>
+                {% endif %}
+                {% if neg_words %}
+                <div class="d-flex flex-column">
+                    <img src="{{url_for('static', filename='img/wordclouds/negatif/svm_'+id+'.png')}}" class="img-fluid d-block mx-auto">
+                    <h5 class="text-danger text-center">Sentimen Negatif</h5>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+      </section>

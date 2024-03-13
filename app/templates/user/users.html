@@ -1,0 +1,136 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Kelola Pengguna{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+
+  <section id="users" class="about section-bg">
+    <div class="container" data-aos="fade-in">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Manajemen Pengguna</h2>
+      </div>
+
+      <button type="submit" class="btn btn-primary px-2 py-2" data-bs-toggle="modal" data-bs-target="#addModal">TAMBAH PENGGUNA</button>
+      
+      <table id="history_tbl" class="table table-bordered" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+        <thead>
+            <tr>                        
+                <th>Nama</th>
+                <th>JK</th>
+                <th>Pekerjaan</th>
+                <th>Alamat</th>
+                <th>No HP</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Hapus?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.nama.title() }}</td>
+                <td>{{ user.jkel }}</td>
+                <td>{{ user.pekerjaan }}</td>
+                <td>{{ user.alamat }}</td>
+                <td>{{ user.telepon }}</td>
+                <td>{{ user.username }}</td>
+                <td>
+                    {% if user.is_admin == True %}
+                      <a href="{{ url_for('user.set_role', id=user.id, is_admin=False) }}" title="Kembalikan sebagai user" ><i class="bi bi-check-square"></i></a>
+                    {% else %}
+                      <a href="{{ url_for('user.set_role', id=user.id, is_admin=True) }}" title="Jadikan sebagai admin" ><i class="bi bi-square"></i></a>
+                    {% endif %}
+                    {{ 'Admin' if user.is_admin == True else 'User' }}
+                </td>
+                <td>
+                    {% if user.is_confirmed == True %}
+                      <a href="{{ url_for('user.set_state', id=user.id, is_confirmed=False) }}" title="Nonaktifkan pengguna" ><i class="bi bi-toggle-on"></i></a>
+                    {% else %}
+                      <a href="{{ url_for('user.set_state', id=user.id, is_confirmed=True) }}" title="Aktifkan pengguna" ><i class="bi bi-toggle-off"></i></a>
+                    {% endif %}
+                    {{ 'Aktif' if user.is_confirmed == True else 'Nonaktif' }}
+                </td>
+                <td>
+                    <button type="button" class="btn" onclick='confirmDelete("/user/delete/{{ user.id }}")'> <i class="bi bi-trash-fill text-danger"></i></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    
+    </div>
+  </section>
+
+  <div class="modal modal-lg fade mt-5" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add">Tambah Pengguna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('user.manage_users') }}" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <div class="mb-3">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" class="form-control" name="nama" required>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Jenis Kelamin</label>
+                <span class="px-4">
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="jkel" id="jkel1" value="L" checked>
+                    <label class="form-check-label" for="jkel1">Laki-laki</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="jkel" id="jkel2" value="P">
+                    <label class="form-check-label" for="jkel2">Perempuan</label>
+                    </div>
+                </span>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="telepon" class="form-label">No. Telepon</label>
+                    <input type="tel" class="form-control" name="telepon" required>
+                </div>
+                <div class="col">
+                    <label for="email" class="form-label">Alamat Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Buat Password</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-secondary" type="button" onclick="generatePswd('pswd')">Generate Password</button>
+                    </div>
+                    <input type="text" class="form-control" name="password" id="pswd" required>
+                </div>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                <label class="form-check-label" for="is_admin">
+                  Jadikan Admin
+                </label>
+            </div>
+
+            <div class="float-end">
+                <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="edit-submit">SIMPAN</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}

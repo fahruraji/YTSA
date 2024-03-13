@@ -1,0 +1,39 @@
+ 
+      <section id="filtered" class="">
+        <div class="container">
+            <hr class="mt-0 mb-5"/>
+            <div class="section-title mb-4">
+                <h3 data-aos="fade-down">HASIL FILTERING</h3>
+                <p data-aos="fade-up">
+                    Filtering adalah tahap mengambil kata-kata penting dari hasil token dengan menggunakan 
+                    algoritma stoplist untuk membuang kata kurang penting, yaitu kata umum yang biasanya muncul 
+                    dalam jumlah besar dan dianggap kurang memiliki makna. Contohnya seperti “yang”, “dan”, “di”, 
+                    “dari”, dan lain-lain. Tujuannya dengan menghapus kata yang memiliki informasi rendah dari sebuah teks, 
+                    sistem dapat fokus menganalisis kata-kata penting sebagai gantinya.
+                </p>
+            </div>
+
+            <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+                <button class="btn btn-dark" onclick="window.open('preprocessed/print/Hasil Filtering Komentar Video: {{ title }}/stemmed/filtered', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+            </div>
+
+            <table id="filtered_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+                <thead>
+                    <tr>
+                        <th>ID</th>                        
+                        <th>Hasil Stemming</th>
+                        <th>Sesudah Filtering</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preprocessed %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row.stemmed }}</td>
+                        <td>{{ row.filtered }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </section>

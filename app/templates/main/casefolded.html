@@ -1,0 +1,38 @@
+
+<section id="casefolded" class="">
+    <div class="container">
+        <hr class="mt-0 mb-5"/>
+        <div class="section-title mb-3">
+            <h3 data-aos="fade-down">HASIL CASEFOLDING</h3>
+            <p data-aos="fade-up">
+                Case Folding adalah proses menyeragamkan teks menjadi huruf kecil atau kapital 
+                dan menghilangkan karakter selain huruf seperti angka atau tanda baca. Tujuannya untuk
+                meningkatkan konsistensi dan akurasi dalam pemrosesan teks selanjutnya agar tidak terjadi
+                kesalahan pencocokan atau pengelompokan kata yang sama ke dalam kelompok yang berbeda.
+            </p>
+        </div>
+
+        <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+            <button class="btn btn-dark" onclick="window.open('preprocessed/print/Hasil Casefolding Komentar Video: {{ title }}/comment/casefolded', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+        </div>
+
+        <table id="casefolded_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+            <thead>
+                <tr>
+                    <th>No</th>                        
+                    <th>Hasil Scraping</th>
+                    <th>Sesudah Casefolding</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in preprocessed %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row.comment }}</td>
+                    <td>{{ row.casefolded }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    </div>
+</section>

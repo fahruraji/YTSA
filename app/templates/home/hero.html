@@ -1,0 +1,53 @@
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="align-items-center">
+    <div class="container" data-aos="fade-in">
+        <h1 class="py-2"><span class="typed" data-typed-items="<strong>YOUTUBE COMMENTS</strong> SENTIMENT ANALYSIS.;ANALISIS SENTIMEN <strong>KOMENTAR YOUTUBE.</strong>"></span></h5>
+        <div class="row pt-2">
+          <div class="col-lg-7 col-md-12 pr-5">
+              <p data-aos="fade-right">
+                Aplikasi Analisis Sentimen Komentar Youtube ini dibuat untuk membantu mengekstrak opini (beserta intensinya) yang berasal dari komentar 
+                para pengguna terhadap suatu konten video yang diupload di Youtube dan mengidentifikasi kecenderungan 
+                sentimen publik menanggapi materi atau isu yang dibahas dalam video tersebut. Pendekatan utama yang 
+                digunakan untuk melakukan analisis adalah pendekatan Transfer Learning menggunakan <strong>Pretrained Language 
+                Models IndoBERT</strong>. Sebagai pembanding ditampilkan pula hasil prediksi pendekatan  
+                pembelajaran mesin menggunakan <strong>Support Vector Machine (SVM)</strong> dengan pembobotan TF-IDF.                    
+              </p>
+          </div>
+          <div class="col-lg-5 col-md-12">
+            {% if model_exist %}
+              <form action="{{url_for('main.home')}}" method="post" id="paper">
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                <textarea class="box" placeholder="Tuliskan sesuatu..." id="text-area" oninput="autoResize()" name="sentence" rows="6" style="overflow: auto; word-wrap: break-word; resize: none; height: 200px;" required>{{ result.sentence if result }}</textarea>
+                <br>
+                <button id="button" type="submit">Analisis<br>Kalimat</button>
+              </form>
+              {% if result %}
+              <table class="table table-sm mt-1">
+                <tr>
+                  <th class="text-warning">HASIL ANALISIS</th>
+                  <th class="text-white">Sentiment</th>
+                  <th class="text-white">Intent</th>
+                </tr>
+                <tr>
+                  <th class="text-white">IndoBERT</th>
+                  <td class="text-white">{{ result.indobert_sentiment|upper }}</td>
+                  <td class="text-white">{{ result.indobert_intent|upper }}</td>
+                </tr>
+                <tr>
+                  <th class="text-white">SVM</th>
+                  <td class="text-white">{{ result.svm_sentiment|upper }}</td>
+                  <td class="text-white">{{ result.indobert_intent|upper }}</td>
+                </tr>
+              </table>
+              {% endif %}
+            {% else %}
+              <div class="text-center px-3">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size: 100px; color: yellow"></i>
+                <h5 class="text-white">Model analisis sentimen belum siap atau belum dibangun</h5>
+              </div>
+            {% endif %}                          
+          </div>
+          
+      </div>
+    </div>
+  </section><!-- End Hero -->

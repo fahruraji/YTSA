@@ -1,0 +1,80 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ title|title }}{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+  <section id="train_result" class="about">
+    <div class="container" data-aos="fade-in">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2 data-aos="fade-down">{{ title|upper }}</h2>          
+      </div>
+      
+      <div id="indobert">
+        <h2>A. INDOBERT</h2>
+        <div class="d-flex justify-content-between mb-3">
+            <img src="{{ url_for('static', filename=lc1) }}" alt="" width="500" data-aos="fade-left" data-aos-delay="100">
+            <img src="{{ url_for('static', filename=cm1) }}" alt="", width="500" data-aos="fade-right" data-aos-delay="100">
+        </div>
+        
+        <h3>Classification Report</h3>
+        <table class="table table-bordered table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+          <tr class="table-dark">
+              <th></th>
+              <th>Precission</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>Support</th>
+          </tr>
+          {% for metric, values in cr1.iterrows() %}
+              <tr>
+                  <td>{{ metric|title }}</td>
+                  {% for value in values %}
+                      <td>{{ value }}</td>
+                  {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+      
+      <div id="indobert" class="mt-5">
+        <h2>B. SUPPORT VECTOR MACHINE (SVM)</h2>
+        <div class="d-flex justify-content-between my-3">
+            <img src="{{ url_for('static', filename=lc2) }}" alt="" width="500" data-aos="fade-left" data-aos-delay="100">
+            <img src="{{ url_for('static', filename=cm2) }}" alt="", width="500" data-aos="fade-right" data-aos-delay="100">
+        </div>
+        
+        <h3>Classification Report</h3>
+        <table class="table table-bordered table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+          <tr class="table-dark">
+              <th></th>
+              <th>Precission</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>Support</th>
+          </tr>
+          {% for metric, values in cr2.iterrows() %}
+              <tr>
+                  <td>{{ metric|title }}</td>
+                  {% for value in values %}
+                      <td>{{ value }}</td>
+                  {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+{% endblock %}
+
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}
+  

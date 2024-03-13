@@ -1,0 +1,470 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ title|title }}{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+  <section id="corpus" class="about section-bg">
+    <div class="container" data-aos="fade-in">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2 data-aos="fade-down">{{ title.upper() }}</h2>
+        <p data-aos="fade-up">
+            
+      </div>
+
+      <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-start gap-2" data-aos="fade-right" data-aos-delay="100">
+          {% if current_user.is_admin %}
+          <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-database-add"></i> Tambah Data</button>
+          <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#trainModal"><i class="bi bi-intersect"></i> Latih Model</button>
+          {% endif %}
+        </div>
+      </div>
+      
+      <table id="corpus_tbl" class="table table-bordered" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>                        
+                <th width="250px">Teks</th>
+                <th width="250px">Hasil Normalisasi</th>
+                <th>Sentimen</th>
+                <th>Inten</th>
+                <th>Kontributor</th>
+                <th>Editor</th>
+                <th width="160px">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for word in result %}
+            <tr>
+                <td>{{ loop.index + pagination.skip }}</td>
+                <td>{{ word.text }}</td>
+                <td>{{ word.prep_1 }}</td>
+                <td>{{ word.sentiment }}</td>
+                <td>{{ word.intent }}</td>
+                <td>{{ word.kontributor.nama }}</td>
+                <td>{{ word.editor.nama }}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-success px-2" data-bs-toggle="modal" data-bs-target="#editModal"
+                    data-bs-url="{{ url_for(request.endpoint) }}/update/{{ word.id }}"
+                    data-bs-id="{{ word.id }}"
+                    data-bs-1="{{ word.text }}"
+                    data-bs-2="{{ word.prep_1 }}"
+                    data-bs-3="{{ word.sentiment }}"
+                    data-bs-4="{{ word.intent }}"
+                  >
+                    <i class="bi bi-pencil-square"></i> Edit
+                  </button>
+                  {% if current_user.id == word.kontributor_id %}
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ url_for(request.endpoint) }}/delete/{{ word.id }}')"> 
+                        <i class="bi bi-trash-fill"></i> Hapus
+                    </button>
+                  {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="100">
+        {{ pagination.info }}
+        {{ pagination.links }}        
+      </div>    
+    </div>
+  </section>
+
+  <!-- Add Modal -->
+
+  <div class="modal modal-lg fade" id="addModal" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Data Korpus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs d-none d-lg-flex" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual-tab-pane" type="button" role="tab" aria-controls="manual-tab-pane" aria-selected="true">Input Manual</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="import-tab" data-bs-toggle="tab" data-bs-target="#import-tab-pane" type="button" role="tab" aria-controls="import-tab-pane" aria-selected="false">Impor CSV</button>
+            </li>
+          </ul>
+          <div class="tab-content accordion" id="myTabContent">
+            <div class="tab-pane fade show active accordion-item" id="manual-tab-pane" role="tabpanel" aria-labelledby="manual-tab" tabindex="0">
+          
+              <h2 class="accordion-header d-lg-none" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion Item #1</button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show  d-lg-block" aria-labelledby="headingOne" data-bs-parent="#myTabContent">
+                <div class="accordion-body">
+                  <form action="{{ url_for(request.endpoint) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    <div class="mb-3">
+                      <label for="text" class="form-label">Teks</label>
+                      <textarea class="form-control" name="text" id="text" rows="5" required></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label for="sentiment" class="form-label">Sentimen</label>
+                            <select name="sentiment" class="form-select" required>
+                                <option value="positif">Positif</option>
+                                <option value="negatif">Negatif</option>
+                                <option value="netral">Netral</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="intent" class="form-label">Intent</label>
+                            <select name="intent" class="form-select" required>
+                                <option value="apresiasi">Apresiasi</option>
+                                <option value="dukungan">Dukungan</option>
+                                <option value="harapan">Harapan</option>
+                                <option value="informasi">Informasi</option>
+                                <option value="keluhan">Keluhan</option>
+                                <option value="kritik">Kritik</option>
+                                <option value="opini">Opini</option>
+                                <option value="pertanyaan">Pertanyaan</option>
+                                <option value="sapaan">Sapaan</option>
+                                <option value="saran">Saran</option>
+                                <option value="ujaran kebencian">Ujaran Kebencian</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="float-end">
+                        <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="submit-data">Simpan</button>
+                    </div>
+                  </form>
+                </div>
+              </div>          
+            </div>
+            <div class="tab-pane fade accordion-item" id="import-tab-pane" role="tabpanel" aria-labelledby="import-tab" tabindex="0">
+              <h2 class="accordion-header d-lg-none" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse d-lg-block" aria-labelledby="headingTwo" data-bs-parent="#myTabContent">
+                <div class="accordion-body">
+                  <form method="POST" enctype="multipart/form-data" action="{{ url_for(request.endpoint) }}/words/import_csv">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Pilih Berkas CSV<sup>*</sup></label>
+                      <input class="form-control" type="file" name="file" id="formFile" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Ganti Nama Berkas (opsional)</label>
+                      <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="mt-3">
+                        <small>
+                          <sup>*</sup>Unduh <a href="{{ url_for(request.endpoint) }}/template">template</a> berkas csv
+                        </small>                      
+                      </p>
+                      <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="upload-data">Unggah</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+
+  <div class="modal modal-lg fade mt-5" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Data Korpus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <input type="hidden" name="id" id="editId">
+            <div class="mb-3">
+              <label for="text" class="form-label">Teks</label>
+              <textarea class="form-control" name="text" id="edit1" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="text" class="form-label">Normalisasi Teks</label>
+              <textarea class="form-control" name="prep_1" id="edit2" rows="4" required></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="sentiment" class="form-label">Sentimen</label>
+                    <select name="sentiment" class="form-select" id="edit3" required>
+                        <option value="positif">Positif</option>
+                        <option value="negatif">Negatif</option>
+                        <option value="netral">Netral</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label for="intent" class="form-label">Intent</label>
+                    <select name="intent" class="form-select" id="edit4" required>
+                        <option value="apresiasi">Apresiasi</option>
+                        <option value="dukungan">Dukungan</option>
+                        <option value="harapan">Harapan</option>
+                        <option value="informasi">Informasi</option>
+                        <option value="keluhan">Keluhan</option>
+                        <option value="kritik">Kritik</option>
+                        <option value="opini">Opini</option>
+                        <option value="pertanyaan">Pertanyaan</option>
+                        <option value="sapaan">Sapaan</option>
+                        <option value="saran">Saran</option>
+                        <option value="ujaran kebencian">Ujaran Kebencian</option>
+                    </select>
+                </div>
+            </div>
+            <div class="float-end">
+                <button type="submit"  value="submit" class="btn btn-primary px-5 py-2" id="update-data">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Train Modal -->
+
+<div class="modal modal-lg fade mt-5" id="trainModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add">Parameter Pelatihan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('main.train_model') }}" method="POST">
+          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+          <div class="mb-3">
+              <label class="form-label">Jenis Pelatihan</label>
+              <span class="px-4">
+                  <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="mode" id="mode1" value="sentiment" checked>
+                  <label class="form-check-label" for="mode1">Pelatihan Sentiment</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="mode" id="mode2" value="intent">
+                  <label class="form-check-label" for="mode2">Pelatihan Intent</label>
+                  </div>
+              </span>
+          </div>
+          <hr>
+          <div class="row mb-3">
+              <div class="col-4">
+                  <label for="model" class="form-label" title="pilihan varian pretrained model IndoBERT">Model IndoBERT
+                  </label>
+                  <select class="form-select" name="model" id="model">
+                    <option value="indolem/indobertweet-base-uncased">indobertweet-base-uncased</option>
+                    <option value="indobenchmark/indobert-base-p1">indobert-base-p1</option>
+                    <option value="indobenchmark/indobert-base-p2">indobert-base-p2</option>
+                  </select>
+              </div>
+              <div class="col-2">
+                <label for="optimizer" class="form-label" title="Metode atau pendekatan yang digunakan untuk mengoptimalkan parameter model selama proses pelatihan, tujuannya untuk mencari nilai parameter yang meminimalkan fungsi kerugian (loss function) atau maksimalkan fungsi keuntungan.">Optimizer
+                </label>
+                <select class="form-select" name="optimizer" id="optimizer">
+                  <option value="Adam">Adam</option>
+                  <option value="AdamW">AdamW</option>
+                  <option value="Adamax">Adamax</option>
+                  <option value="SparseAdam">SparseAdam</option>
+                </select>
+            </div>
+              <div class="col-2">
+                  <label for="epochs" class="form-label" title="Jumlah iterasi atau putaran yang dilakukan oleh algoritma pembelajaran pada seluruh set data pelatihan">Epochs
+                  </label>
+                  <select class="form-select" name="epochs" id="epochs">
+                    <option value="1">1</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                  </select>
+              </div>
+              <div class="col-2">
+                <label for="max_length" class="form-label" title="Jumlah token maksimum yang dapat diterima oleh model dalam satu waktu.">Max Length
+                </label>
+                <select class="form-select" name="max_length" id="max_length">
+                  <option value="64">64</option>
+                  <option value="128">128</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <label for="batch_size" class="form-label" title="Jumlah sampel data yang akan diproses oleh model pada setiap iterasi atau epoch selama proses pelatihan">Batch Size
+                </label>
+                <select class="form-select" name="batch_size" id="batch_size">
+                  <option value="8">8</option>
+                  <option value="16">16</option>
+                  <option value="64">64</option>
+                </select>
+              </div>
+          </div>
+
+          <div class="row mb-3">
+              <div class="col-2">
+                <label for="learning_rate" class="form-label" title="Untuk mengontrol seberapa besar langkah pembelajaran yang diambil oleh algoritma pembelajaran saat memperbarui bobot (weights) model pada setiap iterasi atau epoch">Learning Rate
+                </label>
+                <select class="form-select" name="learning_rate" id="learning_rate">
+                  <option value="1e-4">1e-4</option>
+                  <option value="2e-5">2e-5</option>
+                  <option value="5e-5">5e-5</option>
+                </select>
+              </div>
+              <div class="col-2">
+                  <label for="dropout_rate" class="form-label" title="mengontrol seberapa banyak persentase unit (neuron) dalam lapisan tertentu yang akan di-drop atau dinonaktifkan secara acak selama proses pelatihan. Tujuannya untuk mencegah overfitting.">Dropout Rate
+                  </label>
+                  <select class="form-select" name="dropout_rate" id="dropout_rate">
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4</option>
+                    <option value="0.5">0.5</option>
+                  </select>
+              </div>
+              <div class="col-2">
+                <label for="l2_reg" class="form-label" title="Tambahan biaya (penalitas) pada fungsi objektif (loss function) selama pelatihan, yang terkait dengan besar parameter mode. Tujuannya untuk mencegah overfitting.">L2 Reg
+                </label>
+                <select class="form-select" name="l2_reg" id="l2_reg">
+                  <option value="5e-6">5e-6</option>
+                  <option value="1e-5">1e-5</option>
+                  <option value="1e-4">1e-4</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <label for="scheduler_warmup_steps" class="form-label" title="Memodifikasi kecepatan pembelajaran selama fase awal pelatihan untuk membantu model menemukan wilayah optimum dalam ruang parameter">Warmup Steps
+                </label>
+                <select class="form-select" name="scheduler_warmup_steps" id="scheduler_warmup_steps">
+                  <option value="100">100</option>
+                  <option value="200">200</option>
+                  <option value="300">300</option>
+                  <option value="500">500</option>
+                  <option value="1000">1000</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <label for="gradient_clip_value" class="form-label" title="Membatasi nilai gradien (perubahan fungsi biaya terhadap parameter model) selama pelatihan">Gradient Clip
+                </label>
+                <select class="form-select" name="gradient_clip_value" id="gradient_clip_value">
+                  <option value="1.0">1.0</option>
+                  <option value="1.5">1.5</option>
+                  <option value="2.0">2.0</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <label for="early_stopping_patience" class="form-label" title="Toleransi jumlah epoch yang diizinkan tanpa peningkatan kinerja sebelum pelatihan dihentikan.">Early Stop
+                </label>
+                <select class="form-select" name="early_stopping_patience" id="early_stopping_patience">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+          </div>
+          <hr>
+          <div class="row mb-3">
+            <div class="col-3">
+                <label for="svm_kernel" class="form-label" title="Jenis fungsi kernel yang akan digunakan untuk memetakan data non-linier ke dimensi yang lebih tinggi">Kernel SVM
+                </label>
+                <select class="form-select" name="svm_kernel" id="svm_kernel">
+                  <option value="linear">Linear</option>
+                  <option value="rbf">Gaussian RBF</option>
+                  <option value="poly">Polynomial</option>
+                  <option value="sigmoid">Sigmoid</option>
+                </select>
+            </div>
+            <div class="col-2">
+              <label for="svm_c" class="form-label" title="Mengontrol tingkat toleransi terhadap kesalahan klasifikasi. Semakin tinggi akan semakin ketat.">Penalti
+              </label>
+              <select class="form-select" name="svm_c" id="svm_c">
+                <option value="0.001">0.001</option>
+                <option value="0.01">0.01</option>
+                <option value="0.1">0.1</option>
+                <option value="1">1</option>
+                <option value="10">10</option>
+                <option value="100">100</option>
+                <option value="1000">1000</option>
+              </select>
+            </div>
+            <div class="col-2">
+                <label for="svm_gamma" class="form-label" title="Mengontrol sejauh mana pengaruh dari satu titik data terhadap pembentukan margin dan fungsi keputusan">Gamma
+                </label>
+                <select class="form-select" name="svm_gamma" id="svm_gamma">
+                  <option value="0.001">0.001</option>
+                  <option value="0.01">0.01</option>
+                  <option value="0.1">0.1</option>
+                  <option value="1">1</option>
+                </select>
+            </div>
+            <div class="col-3">
+              <label for="svm_class_weight" class="form-label" title="Untuk menangani ketidakseimbangan kelas dalam dataset.">Class Weight
+              </label>
+              <select class="form-select" name="svm_class_weight" id="svm_class_weight">
+                <option value="balanced">Balanced</option>
+                <option value=None>None</option>
+              </select>
+            </div>
+            <div class="col-2">
+              <label for="n_splits" class="form-label" title="Jumlah lipatan (folds) yang akan dibuat dari data pelatihan untuk K-Fold Cross Validation">Fold
+              </label>
+              <select class="form-select" name="n_splits" id="n_splits">
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+              </select>
+            </div>
+          </div>          
+          <div class="row pl-3 mt-2">
+            <p>*Arahkan kursor pada judul kolom untuk melihat keterangan fungsi parameter</p>
+          </div>
+          <div class="float-end">
+              <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="edit-submit">LATIH MODEL</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    function trainData(action) {
+      $("#overlay").show();
+      // Create a hidden form
+      var form = document.createElement('form');
+      form.method = 'post';
+      form.action = action;
+
+      // Append the CSRF token to the form
+      var csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = 'csrf_token';
+      csrfInput.value = '{{ csrf_token() }}';
+
+      // Append the inputs to the form
+      form.appendChild(csrfInput);
+
+      // Append the form to the body
+      document.body.appendChild(form);
+
+      // Submit the form
+      form.submit();
+    }
+  </script>
+{% endblock %}
+    
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}

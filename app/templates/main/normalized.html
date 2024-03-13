@@ -1,0 +1,42 @@
+
+<section id="normalized" class="">
+    <div class="container">
+        <hr class="mt-0 mb-5"/>
+        <div class="section-title mb-4">
+            <h3 data-aos="fade-down">HASIL NORMALISASI</h3>
+            <p data-aos="fade-up">
+                Pada tahap normalisasi dilakukan proses pengembalian teks yang tidak baku seperti singkatan, kata gaul atau slang,
+                dan yang lainnya menjadi kata baku, agar mudah diklasifikasikan. Tabel berikut merupakan hasil Normalizing
+                yang dilakukan sistem secara otomatis menggunakan daftar kata yang telah didefinisikan sebelumnya. 
+                Klik baris "Sesudah Normalizing" untuk melakukan perbaikan hasil normalisasi secara manual, lalu tekan ENTER untuk menyimpan.
+            </p>
+        </div>
+
+        <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+            <button class="btn btn-dark" onclick="window.open('preprocessed/print/Hasil Normalisasi Komentar Video: {{ title }}/tokenized/normalized', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+        </div>
+
+        <table id="normalized_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+            <thead>
+                <tr>
+                    <th style="display:none;">id</th>
+                    <th>#</th>                        
+                    <th>Hasil Tokenizing</th>
+                    <th>Sesudah Normalizing</th>
+                    <th style="display:none;">csrf</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in preprocessed %}
+                <tr>
+                    <td style="display:none;">{{ row.id }}</td>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row.tokenized }}</td>
+                    <td contenteditable="true">{{ row.normalized }}</td>
+                    <td style="display:none;">{{ csrf_token() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+    <section id="comments" class="">
+      <hr class="mt-0 mb-5"/>
+      <div class="container">
+          <div class="section-title mb-3">
+              <h3 data-aos="fade-down">HASIL SCRAPING</h3>
+              <p data-aos="fade-up" class="my-4">
+                  Web scraping adalah proses ekstraksi data dari situs web secara otomatis dengan 
+                  menggunakan perangkat lunak atau script tertentu.
+              </p>
+          </div>
+
+          <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+            <button class="btn btn-dark" onclick="window.open('comments/print/Hasil Scraping Video: {{ title }}', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+          </div>
+
+          <table id="raw_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nama Pengguna</th>
+                    <th>Isi Komentar</th>
+                    <th>Diposting</th>
+                    <th>Menyukai</th>
+                    <th>Membalas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ comment.name }}</td>
+                    <td>{{ comment.comment }}</td>
+                    <td>{{ comment.published_at.strftime('%d %b %Y') }}</td>
+                    <td>{{ comment.likes }}</td>
+                    <td>{{ comment.replies }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </section>

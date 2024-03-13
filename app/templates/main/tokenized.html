@@ -1,0 +1,38 @@
+ 
+      <section id="tokenized" class="">
+        <div class="container">
+            <hr class="mt-0 mb-5"/>
+            <div class="section-title mb-3">
+                <h3 data-aos="fade-down">HASIL TOKENIZING</h3>
+                <p data-aos="fade-up">
+                    Tokenizing adalah proses pemecahan teks menjadi unit-unit yang lebih kecil yang 
+                    disebut token. Tujuan dari tokenizing adalah untuk membantu dalam pemrosesan teks 
+                    selanjutnya, seperti proses penghilangan stopword, pengembalian kata berimbuhan menjadi
+                    kata dasar, dan yang lainnya.
+                </p>
+            </div>
+
+            <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+                <button class="btn btn-dark" onclick="window.open('preprocessed/print/Hasil Tokenisasi Komentar Video: {{ title }}/casefolded/tokenized', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+            </div>
+
+            <table id="tokens_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+                <thead>
+                    <tr>
+                        <th>ID</th>                        
+                        <th>Hasil Casefolding</th>
+                        <th>Sesudah Tokenizing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preprocessed %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row.casefolded }}</td>
+                        <td>{{ row.tokenized }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </section>

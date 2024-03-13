@@ -1,0 +1,55 @@
+<nav id="navbar" class="navbar">
+    <ul>
+      <li><a class="nav-link scrollto" href="{{ url_for('main.home') }}">Tentang</a></li>
+      <li><a class="nav-link scrollto" href="{{ url_for('main.home',_anchor='why') }}">Latar</a></li>
+      <li><a class="nav-link scrollto" href="{{ url_for('main.home',_anchor='how') }}">Langkah</a></li>
+      <li><a class="nav-link scrollto" href="{{ url_for('main.home',_anchor='what') }}">Metode</a></li>
+      <li class="dropdown">
+        <a href="" style="padding-right: 0px;">
+          Resources
+        </a>
+        <ul>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.root')}}"><i class="bi bi-journal-arrow-down" style="font-size:20px;"></i>Akar Kata</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.compound')}}"><i class="bi bi-journal-medical" style="font-size:20px;"></i>Kata Berimbuhan</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.informal')}}"><i class="bi bi-journal-check" style="font-size:20px;"></i>Kata Informal</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.negation')}}"><i class="bi bi-journal-code" style="font-size:20px;"></i>Kata Negasi</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.stopword')}}"><i class="bi bi-journal-x" style="font-size:20px;"></i>Stopword</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.positive')}}"><i class="bi bi-journal-plus" style="font-size:20px;"></i>Kata Positif</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('words.negative')}}"><i class="bi bi-journal-minus" style="font-size:20px;"></i>Kata Negatif</a></li>
+        </ul>
+      </li>
+      {% if current_user.is_authenticated %}
+      <li class="dropdown">
+        <a href="" style="padding-right: 0px;">
+          <img src="" class="rounded-circle"style="padding-right: 0px;">
+          Analisis
+        </a>
+        <ul>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{ url_for('main.history') }}"><i class="bi bi-youtube" style="font-size:20px;"></i>Analisis Komentar Youtube</a></li>
+          {% if current_user.is_admin == True %}
+            <li><a class="nav-link d-flex justify-content-start gap-2" href="{{ url_for('words.corpus') }}"><i class="bi bi-intersect" style="font-size:20px;"></i>Pelatihan Model Analisis</a></li>
+            <li><a class="nav-link d-flex justify-content-start gap-2" href="{{ url_for('main.train_result', mode='sentiment') }}"><i class="bi bi-graph-up" style="font-size:20px;"></i>Hasil Pelatihan Sentimen</a></li>
+            <li><a class="nav-link d-flex justify-content-start gap-2" href="{{ url_for('main.train_result', mode='intent') }}"><i class="bi bi-graph-up-arrow" style="font-size:20px;"></i>Hasil Pelatihan Inten</a></li>
+          {% endif %}
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="" style="padding-right: 0px;">
+          <img src="{{ url_for('static', filename='img/'+current_user.foto) }}" class="rounded-circle" style="width:25px; height:25px; margin-right:10px;">
+          <span>{{ current_user.nama }}</span>
+        </a>
+        <ul>
+          {% if current_user.is_admin == True %}
+            <li><a class="nav-link d-flex justify-content-start gap-2" href="{{ url_for('user.manage_users') }}"><i class="bi bi-person-gear" style="font-size:20px;"></i>Kelola Pengguna</a></li>
+            <li><hr class="bg-dark"></li>
+          {% endif %}
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('user.profile')}}"><i class="bi bi-person-fill" style="font-size:20px;"></i>Profil</a></li>
+          <li><a class="nav-link d-flex justify-content-start gap-2" href="{{url_for('auth.logout')}}"><i class="bi bi-box-arrow-right" style="font-size:20px;"></i>Logout</a></li>
+        </ul>
+      </li>
+      {% else %}
+        <li><a class="nav-link" href="{{url_for('auth.login')}}">Login<i class="bi bi-box-arrow-in-left" style="font-size:20px; margin-left:8px"></i></a></li>
+      {% endif %}
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+</nav><!-- .navbar -->

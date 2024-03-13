@@ -1,0 +1,62 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Riwayat Analisis{% endblock %}
+  
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+
+{% block body %}
+<section id="history" class="about section-bg" style="min-height:100vh;">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+            <h2>RIWAYAT ANALISIS</h2>
+      </div>
+
+      <div class="float-start mb-2" data-aos="flip-left" data-aos-delay="100">
+        <a href="{{ url_for('main.search') }}" class="btn btn-primary" style="font-size: 16px;">Analisis Baru</a>
+      </div>
+
+      <table id="history_tbl" class="table table-striped" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+        <thead>
+            <tr>                        
+                <th>Tanggal Analisis</th>
+                <th class="w-25">Judul Video</th>
+                <th>Komentar</th>
+                <th width="400px">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.analyze_at.strftime('%d %b %Y') }}</td>
+                <td>{{ result.youtube.title|upper }} </td>
+                <td>{{ result.youtube.comments }}</td>
+                <td>
+                    <form action="" method="post" id="history_frm">
+                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                        <input type="hidden" name="id" value="{{result.id}}">
+                        <button type="submit" class="btn btn-sm btn-success" title="Lihat hasil analisis">
+                          <i class="bi bi-pie-chart-fill"></i> Lihat Hasil
+                        </button>
+                        <a href="https://www.youtube.com/watch?v={{ result.youtube_id }}" target="_blank" class="btn btn-sm btn-primary" title="Buka link video"><i class="bi bi-youtube"></i> Tonton Video</a>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ url_for(request.endpoint) }}/delete/{{ result.id }}')" title="Hapus riwayat"> 
+                          <i class="bi bi-trash-fill"></i> Hapus
+                        </button>
+                      </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}

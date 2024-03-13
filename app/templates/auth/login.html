@@ -1,0 +1,157 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block styles %}
+  <style>
+    .rounded-top-left-1 {
+      border-top-left-radius: 1rem;
+    }
+    .rounded-top-right-1 {
+      border-top-right-radius: 1rem;
+    }
+    .rounded-bottom-left-1 {
+      border-bottom-left-radius: 1rem;
+    }
+    .rounded-bottom-right-1 {
+      border-bottom-right-radius: 1rem;
+    }
+  </style>
+  
+{% endblock %}
+  
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+
+  <!-- ======= Login Section ======= -->
+  <section id="login" class="">
+    <div class="container" data-aos="fade-in">
+
+      <div class="row justify-content-center pt-0">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last d-none d-sm-block">
+              <div class="text w-100">
+                <img src="{{ url_for('static', filename='/img/sentiment+analysis.png') }}" class="img-fluid d-block mx-auto">
+                <h2 class="text-muted pt-5">SENTIMENT ANALYSIS</h2>
+              </div>
+            </div>
+            
+            <div class="login-wrap p-4 p-lg-5">
+              <div class="d-flex">
+                <div class="w-100">
+                  <h3 class="mb-4 text-center mb-5">Login Form</h3>
+                </div>
+              </div>
+              <form action="{{url_for('auth.login')}}" method="POST" class="signin-form" autocomplete="off">
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon"><i class="bi bi-envelope-at-fill" style="margin-left: 10px;"></i></span>
+                  <input type="email" class="form-control" placeholder="Email" name="username" required>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><i class="bi bi-key-fill" style="margin-left: 10px;"></i></span>
+                  <input type="password" class="form-control group-1" placeholder="Kata Sandi" id="password" name="password" required>
+                  <span class="input-group-text-2" id="basic-addon2"><i class="bi bi-eye-slash-fill" style="margin-left: 10px; margin-right: 10px;" onclick="showPasswd('password')" id="showpass"></i></span>
+                </div>
+                <div class="form-group pt-4">
+                  <button type="submit" class="form-control btn btn-white submit px-3">LOGIN</button>
+                </div>
+              </form>
+              <div class="d-flex justify-content-around pt-3">
+                <a href="" data-bs-toggle="modal" data-bs-target="#pswModal" class="text-white">Lupa password?</a>
+                <p class="text-white"><a href="" data-bs-toggle="modal" data-bs-target="#regModal" class="text-white">Belum punya akun?</a></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </section>
+
+  <div class="modal modal-lg fade" id="regModal" tabindex="1" aria-labelledby="regModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="regModalLabel">Registrasi Pengguna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{url_for('auth.register')}}" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <div class="mb-3">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" class="form-control" name="nama" required>
+            </div>
+            <div class="mb-2">
+              <label for="jkel" class="form-label">Jenis Kelamin</label>
+              <span class="px-4">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="jkel" id="jkel1" value="L" checked>
+                  <label class="form-check-label" for="jkel1">Laki-laki</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="jkel" id="jkel2" value="P">
+                  <label class="form-check-label" for="jkel2">Perempuan</label>
+                </div>
+              </span>
+            </div>
+            <div class="mb-3">
+              <label for="telepon" class="form-label">No. Telepon</label>
+              <input type="tel" class="form-control" name="telepon" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Alamat Email</label>
+              <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Buat Password</label>
+              <div class="input-group">
+                <input type="password" class="form-control" name="password" id="passwd" oninput="verifyPassword('passwd')" required>
+                <span class="input-group-text" id="basic-addon3"><i class="bi bi-eye-slash-fill" style="margin: 10px;" onclick="showPasswd('passwd')" id="showpass"></i></span>
+              </div>
+              <div id="description"></div>
+            </div>
+            <div class="float-end">
+                <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="submit" disabled>Buat Akun</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="pswModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="regModalLabel">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('auth.send_otp') }}" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <div class="mb-3">
+              <label for="email" class="form-label">Alamat Email</label>
+              <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">No. Telepon</label>
+              <input type="tel" class="form-control" name="phone" required>
+            </div>
+            <div class="float-end">
+                <button type="submit" value="submit" class="btn btn-primary px-5 py-2">Minta Kode Verifikasi</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

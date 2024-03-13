@@ -1,0 +1,202 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}{{ title|title }}{% endblock %}
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+{% block body %}
+  <section id="stopword" class="about section-bg">
+    <div class="container" data-aos="fade-in">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2 data-aos="fade-down">{{ title.upper() }}</h2>
+        <p data-aos="fade-up">
+            Stopword atau stoplist adalah kata umum yang biasanya muncul dalam jumlah besar dan dianggap kurang memiliki makna sentimen. 
+            Contohnya seperti “yang”, “dan”, “di”, “dari”, dan lain-lain. Tujuannya dengan menghapus kata yang memiliki 
+            informasi rendah dari sebuah teks, sistem dapat fokus menganalisis kata-kata penting sebagai gantinya.
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-start gap-2" data-aos="fade-right" data-aos-delay="100">
+          {% if current_user.is_admin %}
+          <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-database-add"></i> Tambah</button>
+          {% endif %}
+          <button class="btn btn-dark" onclick="window.open('{{ url_for(request.endpoint) }}/print/{{ title }}', '_blank', 'toolbar=0,location=0,menubar=0')"><i class="bi bi-printer"></i> Cetak</button>
+        </div>
+        <form action="{{ url_for(request.endpoint) }}" method="GET">
+          <div class="input-group border border-secondary rounded" data-aos="fade-left" data-aos-delay="100">          
+            <div class="input-group-prepend">
+              <span class="input-group-text bg-white border-0">
+                  <i class="bi bi-search"></i>
+              </span>         
+            </div>
+            <input type="search" class="form-control border-0" placeholder="Cari kata..." name="search" id="search">
+          </div>
+        </form>
+      </div>
+      
+      <table id="stopword_table" class="table table-bordered" style="width:100%" data-aos="fade-up" data-aos-delay="100">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>                        
+                <th>Stopword</th>
+                <th>Sumber</th>
+                <th>Kontributor</th>
+                <th>Editor</th>
+                {% if current_user.is_admin %}
+                  <th>Aksi</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for word in result %}
+            <tr>
+                <td>{{ loop.index + pagination.skip }}</td>
+                <td>{{ word.stop_word|title }}</td>
+                <td>{{ word.sumber }}</td>
+                <td>{{ word.kontributor.nama }}</td>
+                <td>{{ word.editor.nama }}</td>
+                {% if current_user.is_admin %}
+                  <td>                    
+                    <button type="button" class="btn btn-sm btn-success px-2" data-bs-toggle="modal" data-bs-target="#editModal"
+                      data-bs-url="{{ url_for(request.endpoint) }}/update/{{ word.id }}"
+                      data-bs-id="{{ word.id }}"
+                      data-bs-1="{{ word.stop_word|title  }}"
+                      data-bs-2="{{ word.sumber }}"
+                    >
+                      <i class="bi bi-pencil-square"></i> Edit
+                    </button>
+                        {% if current_user.id == word.kontributor_id %}
+                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ url_for(request.endpoint) }}/delete/{{ word.id }}')"> 
+                            <i class="bi bi-trash-fill"></i> Hapus
+                        </button>
+                        {% endif %}                    
+                  </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="100">
+        {{ pagination.info }}
+        {{ pagination.links }}        
+      </div>    
+    </div>
+  </section>
+
+  <!-- Add Modal -->
+
+  <div class="modal fade" id="addModal" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Stopword</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs d-none d-lg-flex" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual-tab-pane" type="button" role="tab" aria-controls="manual-tab-pane" aria-selected="true">Input Manual</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="import-tab" data-bs-toggle="tab" data-bs-target="#import-tab-pane" type="button" role="tab" aria-controls="import-tab-pane" aria-selected="false">Impor CSV</button>
+            </li>
+          </ul>
+          <div class="tab-content accordion" id="myTabContent">
+            <div class="tab-pane fade show active accordion-item" id="manual-tab-pane" role="tabpanel" aria-labelledby="manual-tab" tabindex="0">
+          
+              <h2 class="accordion-header d-lg-none" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion Item #1</button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show  d-lg-block" aria-labelledby="headingOne" data-bs-parent="#myTabContent">
+                <div class="accordion-body">
+                  <form action="{{ url_for(request.endpoint) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    <div class="mb-3">
+                      <label for="stop_word" class="form-label">Stopword</label>
+                      <input type="text" class="form-control" name="stop_word" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="sumber" class="form-label">Sumber</label>
+                      <input type="text" class="form-control" name="sumber">
+                    </div>
+                    <div class="float-end">
+                        <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="submit-data">Simpan</button>
+                    </div>
+                  </form>
+                </div>
+              </div>          
+            </div>
+            <div class="tab-pane fade accordion-item" id="import-tab-pane" role="tabpanel" aria-labelledby="import-tab" tabindex="0">
+              <h2 class="accordion-header d-lg-none" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse d-lg-block" aria-labelledby="headingTwo" data-bs-parent="#myTabContent">
+                <div class="accordion-body">
+                  <form method="POST" enctype="multipart/form-data" action="{{ url_for(request.endpoint) }}/words/import_csv">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Pilih Berkas CSV<sup>*</sup></label>
+                      <input class="form-control" type="file" name="file" id="formFile" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Ganti Nama Berkas (opsional)</label>
+                      <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="mt-3">
+                        <small>
+                          <sup>*</sup>Unduh <a href="{{ url_for(request.endpoint) }}/template">template</a> berkas csv
+                        </small>                      
+                      </p>
+                      <button type="submit" value="submit" class="btn btn-primary px-5 py-2" id="upload-data">Unggah</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+
+  <div class="modal fade mt-5" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Stopword</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <input type="hidden" name="edit-id" id="editId">
+            <div class="mb-3">
+              <label for="stop_word" class="form-label">Stopword</label>
+              <input type="text" class="form-control" name="stop_word" id="edit1" required>
+            </div>
+            <div class="mb-3">
+              <label for="sumber" class="form-label">Sumber</label>
+              <input type="text" class="form-control" name="sumber" id ="edit2">
+            </div>
+            <div class="float-end">
+                <button type="submit"  value="submit" class="btn btn-primary px-5 py-2" id="update-data">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}

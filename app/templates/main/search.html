@@ -1,0 +1,115 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Pencarian Video{% endblock %}
+
+
+{% block styles %}
+<style>
+    
+</style>
+  
+{% endblock %}
+  
+
+{% block nav %}
+  {% include 'layout/nav.html' %}
+{% endblock %}
+
+
+{% block body %}
+<!-- ======= Team Section ======= -->
+<section id="search_result" class="search">
+  <div class="container">
+
+    {% if result %}
+
+    <form action="{{url_for('main.search')}}" method="GET">
+      <input type="hidden" name="el" value="{{ csrf_token() }}" />
+      <div class="input-group">
+        <span class="input-group-text gap-2">
+          <i class="bi bi-search"></i>
+        </span>                 
+        <input type="search" class="form-control" placeholder="Ulangi pencarian..." name="q" id="search" value="{{ keyword }}">
+        <span class="input-group-text gap-2">
+            <i class="bi bi-mic-fill"></i> 
+            <i class="bi bi-camera-fill"></i>
+        </span>
+      </div>
+    </form>
+
+    <div class="section-title mt-5">
+      <h2 data-aos="fade-up">HASIL PENELUSURAN</h2>
+      <p data-aos="fade-up">Ditemukan <strong>{{ total }}</strong> video yang relevan dengan kata kunci <strong>{{ keyword }}</strong></p>
+      <p class="text-danger" data-aos="fade-up"><small>(Klik gambar untuk menampilkan video)</small></p>
+    </div>
+
+    <div class="row">
+      
+      {% for item in result %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+        <div class="member">
+          <div class="member-img">
+              <a href="https://www.youtube.com/watch?v={{ item['id'] }}" target="_blank"><img src="{{ item['thumbnail'] }}" class="img-fluid" style="width:100%" alt=""></a>
+            <div class="social">
+              <a href="">{{ item['views'] }} views</i></a>
+              <a href="">{{ item['likes'] }} likes</a>
+              <a href="">{{ item['comments'] }} comments</a>
+            </div>
+          </div>
+          <div class="member-info">
+            <h4 class="text-uppercase">{{ item['title'] }}</h4>
+          </div>
+          <form action="{{ url_for('main.scraping') }}" method="POST">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+            <input type="hidden" name="id" value="{{ item['id'] }}">
+            <button type="submit" class="btn text-uppercase" {% if item['comments'] == '0' %} disabled {% endif %}>Analisis Komentar</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="pagination-info px-2 pt-3" data-aos="fade-up" data-aos-delay="100">
+      {{ pagination.info }}
+      {{ pagination.links }}
+      
+    </div>
+
+    {% else %}
+
+    <div class="mt-2">
+
+        <div class="section-title" data-aos="fade-up">
+            <h2 data-aos="fade-down" class="mb-5">PENCARIAN VIDEO</h2>
+            <p data-aos="fade-up"></p>
+        </div>
+
+        <form action="{{url_for('main.search')}}" method="GET" id="searchForm">
+          <input type="hidden" name="el" value="{{ csrf_token() }}" />
+          <div class="input-group">                 
+            <span class="input-group-text prepend">
+              <i class="bi bi-search"></i>
+            </span>                 
+            <input type="search" class="form-control" placeholder="Masukkan kata kunci pencarian atau id video" name="q" id="search" value="{{ keyword }}" autocomplete="off">
+            <span class="input-group-text gap-2">
+                <i class="bi bi-mic-fill"></i> 
+                <i class="bi bi-camera-fill"></i>
+            </span>
+          </div>
+        </form>
+        
+
+
+    </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+  {% include 'layout/footer.html' %}
+{% endblock %}
