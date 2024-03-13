@@ -323,3 +323,5 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
             └── Logout
 ```
 ------------------------------------------
+
+<img src="app/static/img/homescreen.png" alt="Home Screen" />
