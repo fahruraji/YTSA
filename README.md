@@ -29,6 +29,7 @@
 ## 📁 Struktur Project
 
 ```sh
+YTSA
 ├── app
 │   ├── controller
 │   │   ├── AuthController.py
@@ -283,7 +284,7 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 9. Login sebagai superadmin menggunakan username `admin@mail.com` dan password `53cr3tK3y`
 10. Struktur menu aplikasi:
 ```sh
-    Beranda
+    BERANDA
     ├── Tentang
     ├── Latar
     ├── Langkah
