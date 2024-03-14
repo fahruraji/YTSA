@@ -29,19 +29,20 @@
 ## 📁 Struktur Project
 
 ```sh
+YTSA
 ├── app
 │   ├── controller
 │   │   ├── AuthController.py
 │   │   ├── HomeController.py
 │   │   ├── MainController.py
 │   │   ├── UserController.py
-│   │   ├── WordsController.py
+│   │   └── WordsController.py
 │   ├── helpers
 │   │   ├── classifying.py
 │   │   ├── commons.py
 │   │   ├── preprocessing.py
 │   │   ├── scraping.py
-│   │   ├── visualizing.py
+│   │   └──visualizing.py
 │   ├── ml
 │   │   ├── indobert
 │   │   │   ├── intent
@@ -64,7 +65,7 @@
 │   │   ├── stopword.py
 │   │   ├── user.py
 │   │   ├── youtube.py
-│   │   ├── __init__.py
+│   │   └── __init__.py
 │   ├── res
 │   ├── response.py
 │   ├── restriction.py
@@ -72,12 +73,12 @@
 │   │   ├── auth.py
 │   │   ├── main.py
 │   │   ├── user.py
-│   │   ├── words.py
+│   │   └── words.py
 │   ├── static
 │   │   ├── css
 │   │   ├── img
 │   │   ├── js
-│   │   ├── scss
+│   │   └── scss
 │   ├── templates
 │   │   ├── auth
 │   │   │   ├── login.html
@@ -141,7 +142,7 @@
 │   │   ├── data_utils.py
 │   │   ├── forward_fn.py
 │   │   ├── functions.py
-│   │   ├── metrics.py
+│   │   └── metrics.py
 │   └── __init__.py
 ├── .env
 ├── config.py
@@ -154,11 +155,11 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| config.py |  The code defines a Config class that sets various configuration variables for an application, including database credentials, JWT secret key, security salt, and mail server settings. |
-| init.py |  The code creates a Flask application and its database, initializes the database, creates an admin user, and prints a success message. |
-| server.py |  The code defines a Flask application with various routes, blueprints, and functions for handling user authentication, error handling, and data import/export. The primary function of the code is to provide a web-based interface for managing data in a database, including importing and exporting data in CSV format, as well as performing various operations on the data such as text classification and sentiment analysis. |
+| config.py |  Mendefinisikan kelas Config yang menetapkan berbagai variabel konfigurasi untuk suatu aplikasi, termasuk kredensial database, JWT secret key, security salt, dan pengaturan server email. |
+| init.py |  Menginisialisasi aplikasi untuk pertama kali. |
+| server.py |  Mendefinisikan aplikasi Flask dengan berbagai rute, cetak biru, dan fungsi untuk menangani otentikasi pengguna, penanganan kesalahan, dan impor/ekspor data. Fungsi utama kode ini adalah menyediakan antarmuka berbasis web untuk mengelola data dalam database, termasuk mengimpor dan mengekspor data dalam format CSV, serta melakukan berbagai operasi pada data seperti klasifikasi teks dan analisis sentimen. |
 
 </details>
 
@@ -166,12 +167,12 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| response.py |  The code defines two functions, `success` and `badRequest`, which return a JSON response with the specified values and message, with `success` returning a 200 status code and `badRequest` returning a 400 status code. |
-| restriction.py |  The code defines a decorator function `permission_required` that restricts access to a view to users with the admin permission, and another function `admin_required` that applies the `permission_required` decorator to a view. |
-| uploadconfig.py |  The code defines a function called allowed_file that checks if a given filename has an allowed extension, which is defined as a set of strings containing png jpg and jpeg |
-| __init__.py |  The code defines a Flask application and its various components, including the database, migrations, CSRF protection, login management, and email sending. |
+| response.py |  Mendefinisikan dua fungsi, `success` dan `badRequest`, yang mengembalikan respons JSON dengan nilai dan pesan yang ditentukan, dengan `success` mengembalikan kode status 200 dan `badRequest` mengembalikan kode status 400. |
+| restriction.py |  Mendefinisikan fungsi dekorator `permission_required` yang membatasi akses ke tampilan untuk pengguna dengan izin admin, dan fungsi `admin_required` yang menerapkan dekorator `permission_required` ke tampilan. |
+| uploadconfig.py |  Mendefinisikan fungsi untuk memeriksa apakah file yang diunggah memiliki ekstensi yang diizinkan, yaitu png jpg dan jpeg. |
+| __init__.py |  Mendefinisikan aplikasi Flask dan komponen database, migrasi, perlindungan CSRF, manajemen login, dan pengiriman email. |
 
 </details>
 
@@ -179,13 +180,13 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app\controller</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| AuthController.py |  The code is a Flask-based web application that provides authentication and authorization functionality for users. It includes login, logout, activation, reset password, and send OTP (One-Time Password) features. |
-| HomeController.py |  The code defines a Flask application with two routes: index and classify The index route renders an HTML template and passes in a result variable if it exists, as well as a model_exist variable indicating whether the SVM or IndoBERT models exist. The classify route takes a sentence from a form submission, preprocesses it, and then uses the SVM and IndoBERT models to classify the sentiment and intent of the sentence. The results are then stored in a session variable and redirected to the home page. |
-| MainController.py |  The code is a Flask application that provides a web interface for analyzing and visualizing comments on YouTube videos. It includes various features such as sentiment analysis, intent classification, and word cloud generation. The primary function of the code is to provide a platform for users to analyze and understand the sentiment and intent behind comments on YouTube videos. |
-| UserController.py |  The code is a Python module that defines several functions related to user management, including registering new users, creating new users, updating user profiles, uploading user images, changing user passwords, managing user roles and permissions, and deleting users. |
-| WordsController.py |  The code is a Flask web application that provides a platform for users to contribute to a corpus of Indonesian language data. It includes features such as adding, editing, and deleting words, as well as classifying them based on their sentiment and intent. The application also includes a search function and pagination. |
+| AuthController.py |  Menyediakan fungsi otentikasi dan otorisasi bagi pengguna, mencakup fitur login, logout, aktivasi, reset kata sandi, dan pengiriman OTP (One-Time Password). |
+| HomeController.py | Berisi fungsi untuk merender beranda aplikasi dan fungsi classify yang mengambil kalimat dari input pengguna, memprosesnya menggunakan model SVM dan IndoBERT untuk mengklasifikasikan sentimen dan maksud kalimat. Hasilnya kemudian disimpan dalam variabel sesi dan ditampilkan ke halaman beranda. |
+| MainController.py |  Berisi fungsi untuk menganalisis sentimen dan maksud di balik komentar video YouTube. |
+| UserController.py |  Mendefinisikan beberapa fungsi terkait manajemen pengguna, termasuk mendaftarkan pengguna baru, membuat pengguna baru, memperbarui profil pengguna, mengunggah gambar pengguna, mengubah kata sandi pengguna, mengelola peran dan izin pengguna, dan menghapus pengguna. |
+| WordsController.py |  Mendefinisikan beberapa fungsi untuk mengelola resources seperti akar kata, kata berimbuhan, stopword dan lain-lain. |
 
 </details>
 
@@ -193,13 +194,13 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app\helpers</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| classifying.py |  This code is a Python script that trains and evaluates a Support Vector Machine (SVM) model for sentiment analysis on Indonesian text. The script uses the TF-IDF vectorizer to convert text data into numerical vectors, and then trains an SVM model with the C=1, kernel='linear', and gamma=1 hyperparameters. The model is trained on a dataset of labeled Indonesian text, and the accuracy of the model is evaluated on a test set. The script also includes functions for plotting learning curves and confusion matrices. |
-| commons.py |  The code defines a number of functions and classes related to pagination, email confirmation, and database queries. The primary function of the code appears to be to provide a set of tools for working with paginated data, including generating pagination links and filtering results based on search criteria. Additionally, the code includes functionality for sending emails and retrieving data from a database using SQLAlchemy. |
-| preprocessing.py |  The code defines a series of functions for text preprocessing, including cleaning, tokenizing, normalizing, stemming, negation handling, and filtering. The primary function of the code is to prepare text data for further analysis in natural language processing tasks. |
-| scraping.py |  The code defines a set of functions for interacting with the YouTube API, including retrieving video information, comments, and thumbnails. |
-| visualizing.py |  The code defines a function called `generate_wordcloud` that generates a word cloud based on the input text, sentiment, and ID. It also defines a function called `associate_data` that performs association rule mining on the input data using the Apriori algorithm. |
+| classifying.py |  Mendefinisikan kelas-kelas untuk melakukan pelatihan model dan analisis sentimen menggunakan algoritma Support Vector Machine (SVM) dan IndoBERT. |
+| commons.py |  Mendefinisikan sejumlah fungsi dan kelas untuk melakukan paginasi, pengiriman email, dan pengambilan data dari database menggunakan SQLAlchemy. |
+| preprocessing.py |  Mendefinisikan serangkaian fungsi untuk prapemrosesan teks, termasuk pembersihan, tokenisasi, normalisasi, stemming, penanganan negasi, dan pemfilteran. Fungsi utama kode ini adalah menyiapkan data teks untuk analisis lebih lanjut dalam tugas pemrosesan bahasa alami. |
+| scraping.py |  Mendefinisikan fungsi untuk melakukan pengambilan informasi dan data komentar menggunakan API YouTube. |
+| visualizing.py | Mendefinisikan fungsi untuk menggenerate awan kata. |
 
 </details>
 
@@ -207,23 +208,23 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app\model</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| analysis.py |  The code defines a class called Analysis in the Flask app, which represents a single analysis of a YouTube video. It has several attributes, including an ID, a foreign key to the YouTube video, a user ID, and a timestamp for when the analysis was performed. It also has a relationship with the Comments class and defines a custom string representation. |
-| comments.py |  The code defines a Comments class in the Flask app, which represents a comment on an analysis. It has various attributes such as id, analysis_id, title, name, comment, published_at, likes, and replies. The class also has a __repr__ method and a to_print method that returns a dictionary of column names and their corresponding values. |
-| compound.py |  The code defines a Compound class in the Flask app, which represents a compound word in the database. It has various attributes and relationships with other models, including Root, User, and Contributor. |
-| corpus.py |  The code defines a Corpus class in a Flask application, with properties for text, sentiment, intent, and contributor information, as well as relationships with other classes. |
-| informal.py |  The code defines a class Informal that represents a row in a database table, with columns for an informal word, its formal equivalent, the source of the word, the user who contributed it, and the user who edited it. |
-| negasi.py |  The code defines a Negasi class in the app module, which represents a negated word or phrase with its source and contributor information. |
-| negative.py |  The code defines a Negative model class in Flask, with attributes for a kata negatif, bobot, sumber, kontributor, and editor, as well as a relationship between the model and the User model. |
-| positive.py |  The code defines a Positive model class in Flask, which represents a positive sentiment in a database. |
-| preprocessed.py |  The code defines a Preprocessed class in the Flask app's database model, with properties for comment ID, casefolded, tokenized, normalized, stemmed, and filtered text, as well as a relationship with the Comments class. |
-| processed.py |  The code defines a class Processed that represents a processed comment, with properties for the comment's ID, vectors, SVM classification, IndoBERT classification, intent, and feedback. It also includes a method to print the comment in different formats. |
-| root.py |  The code defines a Root class in the app module, which represents a root word in the database. It has various columns for storing data, including an ID, the root word itself, its polarity, and the source of the information. The class also defines relationships with other models, such as Compound and User, and provides a method for printing the data in a specific format. |
-| stopword.py |  The code defines a Stopword class in the Flask app, with attributes for a stop word, its source, the user who contributed it, and the user who edited it. It also includes a to_print method to return a dictionary of the class's attributes. |
-| user.py |  The code defines a User class in a Flask application, with properties such as username, password, and name, as well as methods for setting and checking passwords, creating an admin user, and defining relationships with other models. |
-| youtube.py |  The code defines a class called Youtube that represents a YouTube video, with attributes for the video's ID, title, published date, description, views, likes, favorites, comments, and thumbnail. |
-| __init__.py |  The code defines a collection of classes and functions for natural language processing tasks, including text preprocessing, sentiment analysis, and topic modeling. |
+| analysis.py |  Mendefinisikan struktur tabel untuk menyimpan riwayat analisis yang dilakukan pengguna. |
+| comments.py |  Mendefinisikan struktur tabel untuk menyimpan komentar video Youtube hasil proses scraping. |
+| compound.py |  Mendefinisikan struktur tabel untuk menyimpan data kata berimbuhan. |
+| corpus.py |  Mendefinisikan struktur tabel untuk menyimpan data korpus yang akan digunakan untuk pelatihan model. |
+| informal.py |  Mendefinisikan struktur tabel untuk menyimpan data kata informal. |
+| negasi.py |  Mendefinisikan struktur tabel untuk menyimpan data kata negasi. |
+| negative.py |  Mendefinisikan struktur tabel untuk menyimpan data kata yang mengandung sentimen negatif. |
+| positive.py |  Mendefinisikan struktur tabel untuk menyimpan data kata yang mengandung sentimen positif. |
+| preprocessed.py |  Mendefinisikan struktur tabel untuk menyimpan data hasil preprocessing. |
+| processed.py |  Mendefinisikan struktur tabel untuk menyimpan data hasil klasifikasi. |
+| root.py |  Mendefinisikan struktur tabel untuk menyimpan data akar kata. |
+| stopword.py |  Mendefinisikan struktur tabel untuk menyimpan data stopword. |
+| user.py |  Mendefinisikan struktur tabel untuk menyimpan data pengguna. |
+| youtube.py |  Mendefinisikan struktur tabel untuk menyimpan informasi video Youtube. |
+| __init__.py |  Berguna untuk mengatur model-model atau kelas-kelas yang digunakan dalam aplikasi. |
 
 </details>
 
@@ -232,23 +233,12 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app\routes</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| auth.py |  The code defines a Flask Blueprint named auth with routes for user registration, password reset, account activation, and login/logout functionality. |
-| main.py |  The code defines a Flask application with several routes and blueprints, including a main route that handles GET and POST requests, a search route that handles GET and POST requests, and a history route that handles GET and POST requests. The code also defines several functions for handling user feedback, training the model, and generating images. |
-| user.py |  The code defines a Flask blueprint named user and its routes, including profil profil/upload-img profil/update-password users user/active/<id>/<is_confirmed> user/admin/<id>/<is_admin> and user/delete/<id> It also imports various functions and classes from other modules, such as Flask's request, render_template, redirect, url_for, session, flask_login's login_required, and app.restriction's admin_required. |
-| words.py |  The code defines a Flask blueprint named words and routes for various word-related endpoints, including adding, editing, and deleting words, as well as retrieving a list of words. The routes are protected by login and admin privileges using the Flask-Login and Flask-Admin libraries. |
-
-</details>
-
----
-
-<details><summary>\app\static\js</summary>
-
-| File | Summary |
-| ---- | ------- |
-| base.js |  The code is a JavaScript file that contains various functions and event listeners for a web application. The primary function of the code appears to be to initialize various elements on the page, such as dropdown menus, form validation, and modal windows. It also includes functions for handling user input, such as password strength checking and auto-sizing textareas. |
-| main.js |  The code is a JavaScript file that defines various functions and event listeners for a website. It appears to be using the Bootstrap framework, as it includes classes such as avbar-mobile and scrolled-offset The code also includes functionality for a preloader, a back-to-top button, and a portfolio slider. Additionally, it includes a type effect and a lightbox for displaying images in a modal window. Overall, the code appears to be responsible for creating a responsive and interactive user experience for a website. |
+| auth.py |  Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi otentikasi dan otorisasi pengguna. |
+| main.py |  Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi analisis. |
+| user.py |  Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi manajemen pengguna. |
+| words.py |  Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi pengelolaan resources. |
 
 </details>
 
@@ -256,23 +246,23 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 <details><summary>\app\utils</summary>
 
-| File | Summary |
+| File | Fungsi |
 | ---- | ------- |
-| args_helper.py |  The code defines various functions and classes related to data loading, preprocessing, and evaluation for natural language processing tasks. |
-| conlleval.py |  The code is a Python implementation of the CoNLL-2000 shared task evaluation script, which evaluates the accuracy of named entity recognition (NER) models on a given dataset. The primary function of the code is to calculate the overall and type-level metrics for the NER model, including precision, recall, and F1 score, as well as the macro-averaged precision, recall, and F1 score for each type of entity. |
-| data_utils.py |  This code defines several classes that implement the `Dataset` interface in PyTorch, which is used to load and preprocess data for training machine learning models. The classes are designed to work with different types of datasets, including text classification, sentiment analysis, and aspect-based sentiment analysis.The `AspectExtractionDataset` class loads a dataset of text with aspect-level sentiment annotations and returns a tuple of subwords, sequence labels, and the original sentence. The `NerGritDataset` class loads a dataset of named entities and returns a tuple of subwords, sequence labels, and the original sentence. The `PosTagIdnDataset` class loads a dataset of part-of-speech tags and returns a tuple of subwords, sequence labels, and the original sentence. The `EmotionDetectionDataset` class loads a dataset of emotions and returns a tuple of subwords, sequence labels, and the original sentence. The `EntailmentDataset` class loads a dataset of entailment and returns a tuple of subwords, sequence labels, and the original sentence. The `DocumentSentimentDataset` class loads a dataset of document sentiment and returns a tuple of subwords, sequence labels, and the original sentence. The `KeywordExtractionDataset` class loads a dataset of keyword extraction and returns a tuple of subwords, sequence labels, and the original sentence. The `Q |
-| forward_fn.py |  The code defines three forward functions for sequence classification, word classification, and sequence multilabel classification, respectively. Each function takes in a batch of data, prepares the input and label, and then forwards the data through a model to generate predictions and calculate loss. The functions also handle the case where the input data is on GPU. |
-| functions.py |  The code defines various functions and classes related to natural language processing (NLP) tasks, including word embedding, tokenization, and model loading. The primary function of the code appears to be loading pre-trained models for NLP tasks, such as sequence classification, token classification, and multi-label classification. |
-| metrics.py |  The code defines a set of functions for calculating various metrics for natural language processing tasks, including emotion detection, aspect extraction, named entity recognition, part-of-speech tagging, entailment, document sentiment, keyword extraction, question answering, and news categorization. Each function takes two arguments: a list of predicted labels and a list of true labels, and returns a dictionary of metrics. |
+| args_helper.py |  Mendefinisikan berbagai fungsi dan kelas yang terkait dengan pemuatan data, prapemrosesan, dan evaluasi untuk tugas pemrosesan bahasa alami. |
+| conlleval.py |  Merupakan implementasi Python dari skrip evaluasi tugas bersama CoNLL-2000, yang mengevaluasi keakuratan model pengenalan entitas bernama (NER) pada kumpulan data tertentu. Fungsi utama kode ini adalah menghitung metrik tingkat keseluruhan dan tipe untuk model NER, termasuk presisi, perolehan, dan skor F1, serta rata-rata makro presisi, perolehan, dan skor F1 untuk setiap jenis entitas. |
+| data_utils.py |  Mendefinisikan beberapa kelas yang digunakan pada PyTorch untuk memuat dan melakukan praproses data untuk melatih model pembelajaran mesin. Kelas-kelas tersebut dirancang untuk bekerja dengan berbagai jenis kumpulan data, termasuk klasifikasi teks, analisis sentimen, dan analisis sentimen berbasis aspek. Kelas `AspectExtractionDataset` memuat kumpulan data teks dengan anotasi sentimen tingkat aspek dan mengembalikan tupel subkata, urutan label, dan kalimat aslinya. Kelas `NerGritDataset` memuat kumpulan data entitas bernama dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `PosTagIdnDataset` memuat kumpulan data tag part-of-speech dan mengembalikan serangkaian subkata, label urutan, dan kalimat asli. Kelas `EmotionDetectionDataset` memuat kumpulan data emosi dan mengembalikan serangkaian subkata, label urutan, dan kalimat asli. Kelas `EntailmentDataset` memuat kumpulan data yang diperlukan dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `DocumentSentimentDataset` memuat kumpulan data sentimen dokumen dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `KeywordExtractionDataset` memuat kumpulan data ekstraksi kata kunci dan mengembalikan tupel subkata, label urutan, dan kalimat asli. |
+| forward_fn.py |  Mendefinisikan forward functions untuk klasifikasi urutan, klasifikasi kata, dan klasifikasi multilabel urutan. Setiap fungsi mengambil sekumpulan data, menyiapkan masukan dan label, lalu meneruskan data melalui model untuk menghasilkan prediksi dan menghitung kerugian. Fungsinya juga menangani kasus dimana data masukan ada pada GPU. |
+| functions.py |  Mendefinisikan berbagai fungsi dan kelas yang terkait dengan tugas pemrosesan bahasa alami (NLP), seperti klasifikasi urutan, klasifikasi token, dan klasifikasi multi-label. |
+| metrics.py |  Mendefinisikan serangkaian fungsi untuk menghitung berbagai metrik untuk tugas pemrosesan bahasa alami, termasuk deteksi emosi, ekstraksi aspek, pengenalan entitas bernama, penandaan bagian ucapan, keterlibatan, sentimen dokumen, ekstraksi kata kunci, menjawab pertanyaan, dan kategorisasi berita. Setiap fungsi memerlukan dua argumen: daftar label yang diprediksi dan daftar label yang sebenarnya, serta menampilkan kamus metrik. |
 
 </details>
 
 ---
 
 
-## 🚀 Cara Instalasi
+## 🚀 Langkah Instalasi
 
-1. Sebelum memulai pemasangan, pastikan Python versi 3.7 ke atas sudah terinstall dan bisa diakses menggunakan terminal.
+1. Sebelum memulai instalasi, pastikan Python versi 3.7 ke atas sudah dipasang dan bisa diakses menggunakan terminal.
 2. Aktifkan server MySQL, buat database baru dan sesuaikan informasi HOST, USER, PASSWORD, dan NAMA DATABASE pada file .env
 3. Buat lingkungan virtual dengan mengetik pada terminal `python -m venv env` 
 4. Aktifkan lingkungan virtual dengan mengetik `env\Scripts\activate` (untuk windows) atau `source env/bin/activate` (untuk linux atau macOS)
@@ -283,7 +273,7 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 9. Login sebagai superadmin menggunakan username `admin@mail.com` dan password `53cr3tK3y`
 10. Struktur menu aplikasi:
 ```sh
-    Beranda
+    BERANDA
     ├── Tentang
     ├── Latar
     ├── Langkah
@@ -295,7 +285,7 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
     │   ├── Kata Negasi
     │   ├── Stopword
     │   ├── Kata Positif
-    │   ├── Kata Negatif
+    │   └── Kata Negatif
     ├── Analisis
     │   ├── Analisis Komentar Youtube
     │   │   └── Hasil Analisis Komentar Video
@@ -316,12 +306,21 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
     └── Login
         ├── User
         │   ├── Profil
-        │   ├── Logout
+        │   └── Logout
         └── Admin
             ├── Kelola Pengguna
             ├── Profil
             └── Logout
 ```
-------------------------------------------
 
-<img src="app/static/img/homescreen.png" alt="Home Screen" />
+---
+## 📸 Screenshot
+<img src="app/static/img/screenshot/home.png" alt="Home Screen" />
+---
+<img src="app/static/img/screenshot/search.png" alt="Search Screen" />
+---
+<img src="app/static/img/screenshot/result.png" alt="Search Result" />
+---
+<img src="app/static/img/screenshot/analysis.png" alt="Result Screen" />
+---
+<img src="app/static/img/screenshot/wordcloud.png" alt="Wordcloud" />

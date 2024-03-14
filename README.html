@@ -2,11 +2,15 @@
    table {
       border: 1px solid;
       border-collapse: collapse;
+      margin-top: 10px;
    }
    th, td {
       padding: 3px 5px;
       text-align: left;
       border: 1px solid;
+   }
+   h2 {
+      color: steelblue;
    }
 </style>
 
@@ -35,19 +39,20 @@
  <hr>
  <h2 id="📁-struktur-project">📁 Struktur Project</h2>
  <pre><code class="language-sh">
+ YTSA
  ├── app
  │   ├── controller
  │   │   ├── AuthController.py
  │   │   ├── HomeController.py
  │   │   ├── MainController.py
  │   │   ├── UserController.py
- │   │   ├── WordsController.py
+ │   │   └── WordsController.py
  │   ├── helpers
  │   │   ├── classifying.py
  │   │   ├── commons.py
  │   │   ├── preprocessing.py
  │   │   ├── scraping.py
- │   │   ├── visualizing.py
+ │   │   └── visualizing.py
  │   ├── ml
  │   │   ├── indobert
  │   │   │   ├── intent
@@ -70,7 +75,7 @@
  │   │   ├── stopword.py
  │   │   ├── user.py
  │   │   ├── youtube.py
- │   │   ├── __init__.py
+ │   │   └── __init__.py
  │   ├── res
  │   ├── response.py
  │   ├── restriction.py
@@ -147,7 +152,7 @@
  │   │   ├── data_utils.py
  │   │   ├── forward_fn.py
  │   │   ├── functions.py
- │   │   ├── metrics.py
+ │   │   └── metrics.py
  │   └── __init__.py
  ├── .env
  ├── config.py
@@ -155,61 +160,61 @@
  ├── requirements.txt
  └── server.py
  </code></pre>
- <p>Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spesifiknya sendiri:* <code>app</code>: Berisi aplikasi Flask utama dan rute, template, dan aset statis terkait.* <code>ml</code>: Berisi model pembelajaran mesin untuk analisis sentimen dan klasifikasi, termasuk model IndoBERT dan model Support Vector Machine (SVM) untuk analisis sentimen dan deteksi niat .* <code>model</code>: Berisi kelas-kelas yang mewakili struktur database.* <code>res</code>: Berisi berkas csv hasil impor.* <code>routes</code>: Berisi definisi rute untuk aplikasi Flask.* <code>static</code>: Berisi aset statis seperti gambar, stylesheet CSS dan file JavaScript.* <code>templates</code>: Berisi template HTML untuk Aplikasi Flask.* <code>utils</code>: Berisi fungsi utilitas untuk prapemrosesan dan analisis data.* <code>config.py</code>: Berisi pengaturan konfigurasi untuk aplikasi Flask.* <code>init.py</code>: Menginisialisasi aplikasi Flask.* <code>requirements.txt</code> : Berisi dependensi untuk proyek.* <code>server.py</code>: Merupakan titik masuk utama aplikasi.</p>
+ <p>Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spesifiknya sendiri: Folder <code>app</code>, merupakan folder aplikasi Flask utama. Folder <code>ml</code>, berisi model pembelajaran mesin untuk analisis sentimen dan klasifikasi, termasuk model IndoBERT dan model Support Vector Machine (SVM) untuk analisis sentimen dan deteksi niat. Folder <code>model</code>, berisi kelas-kelas yang mewakili struktur database. Folder <code>res</code>, menampung berkas csv hasil impor. Folder <code>routes</code>, berisi file rute untuk aplikasi Flask. Folder <code>static</code>, berisi aset statis seperti gambar, stylesheet CSS dan file JavaScript. Folder <code>templates</code>, berisi file template HTML untuk antarmuka Aplikasi Flask. Folder <code>utils</code>, berisi fungsi utilitas untuk prapemrosesan dan analisis data. Folder <code>helpers</code>, berisi beragam fungsi untuk utilitas aplikasi.</p>
  <details><summary>\</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>config.py</td>
- <td>The code defines a Config class that sets various configuration variables for an application, including database credentials, JWT secret key, security salt, and mail server settings.</td>
+ <td>Mendefinisikan kelas Config yang menetapkan berbagai variabel konfigurasi untuk suatu aplikasi, termasuk kredensial database, JWT secret key, security salt, dan pengaturan server email. |</td>
  </tr>
  <tr>
  <td>init.py</td>
- <td>The code creates a Flask application and its database, initializes the database, creates an admin user, and prints a success message.</td>
- </tr>
+ <td>Menginisialisasi aplikasi untuk pertama kali</td>
+</tr>
  <tr>
  <td>server.py</td>
- <td>The code defines a Flask application with various routes, blueprints, and functions for handling user authentication, error handling, and data import/export. The primary function of the code is to provide a web-based interface for managing data in a database, including importing and exporting data in CSV format, as well as performing various operations on the data such as text classification and sentiment analysis.</td>
+ <td>Mendefinisikan aplikasi Flask dengan berbagai rute, cetak biru, dan fungsi untuk menangani otentikasi pengguna, penanganan kesalahan, dan impor/ekspor data. Fungsi utama kode ini adalah menyediakan antarmuka berbasis web untuk mengelola data dalam database, termasuk mengimpor dan mengekspor data dalam format CSV, serta melakukan berbagai operasi pada data seperti klasifikasi teks dan analisis sentimen.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
+ <br>
  <details><summary>\app</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>response.py</td>
- <td>The code defines two functions, <code>success</code> and <code>badRequest</code>, which return a JSON response with the specified values and message, with <code>success</code> returning a 200 status code and <code>badRequest</code> returning a 400 status code.</td>
+ <td>Mendefinisikan dua fungsi, `success` dan `badRequest`, yang mengembalikan respons JSON dengan nilai dan pesan yang ditentukan, dengan `success` mengembalikan kode status 200 dan `badRequest` mengembalikan kode status 400.</td>
  </tr>
  <tr>
  <td>restriction.py</td>
- <td>The code defines a decorator function <code>permission_required</code> that restricts access to a view to users with the admin permission, and another function <code>admin_required</code> that applies the <code>permission_required</code> decorator to a view.</td>
+ <td>Mendefinisikan fungsi dekorator `permission_required` yang membatasi akses ke tampilan untuk pengguna dengan izin admin, dan fungsi `admin_required` yang menerapkan dekorator `permission_required` ke tampilan.</td>
  </tr>
  <tr>
  <td>uploadconfig.py</td>
- <td>The code defines a function called allowed_file that checks if a given filename has an allowed extension, which is defined as a set of strings containing png jpg and jpeg</td>
+ <td>Mendefinisikan fungsi untuk memeriksa apakah file yang diunggah memiliki ekstensi yang diizinkan, yaitu png jpg dan jpeg</td>
  </tr>
  <tr>
  <td>init.py</td>
- <td>The code defines a Flask application and its various components, including the database, migrations, CSRF protection, login management, and email sending.</td>
+ <td>Mendefinisikan aplikasi Flask dan komponen database, migrasi, perlindungan CSRF, manajemen login, dan pengiriman email.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
+ <br>
  <details><summary>\app\controller</summary>
  
  <table>
@@ -221,224 +226,204 @@
  </thead>
  <tbody><tr>
  <td>AuthController.py</td>
- <td>The code is a Flask-based web application that provides authentication and authorization functionality for users. It includes login, logout, activation, reset password, and send OTP (One-Time Password) features.</td>
+ <td>Menyediakan fungsi otentikasi dan otorisasi bagi pengguna, mencakup fitur login, logout, aktivasi, reset kata sandi, dan pengiriman OTP (One-Time Password).</td>
  </tr>
  <tr>
  <td>HomeController.py</td>
- <td>The code defines a Flask application with two routes: index and classify The index route renders an HTML template and passes in a result variable if it exists, as well as a model_exist variable indicating whether the SVM or IndoBERT models exist. The classify route takes a sentence from a form submission, preprocesses it, and then uses the SVM and IndoBERT models to classify the sentiment and intent of the sentence. The results are then stored in a session variable and redirected to the home page.</td>
+ <td>Berisi fungsi untuk merender beranda aplikasi dan fungsi classify yang mengambil kalimat dari input pengguna, memprosesnya menggunakan model SVM dan IndoBERT untuk mengklasifikasikan sentimen dan maksud kalimat. Hasilnya kemudian disimpan dalam variabel sesi dan ditampilkan ke halaman beranda.</td>
  </tr>
  <tr>
  <td>MainController.py</td>
- <td>The code is a Flask application that provides a web interface for analyzing and visualizing comments on YouTube videos. It includes various features such as sentiment analysis, intent classification, and word cloud generation. The primary function of the code is to provide a platform for users to analyze and understand the sentiment and intent behind comments on YouTube videos.</td>
+ <td>Berisi fungsi untuk menganalisis sentimen dan maksud di balik komentar video YouTube.</td>
  </tr>
  <tr>
  <td>UserController.py</td>
- <td>The code is a Python module that defines several functions related to user management, including registering new users, creating new users, updating user profiles, uploading user images, changing user passwords, managing user roles and permissions, and deleting users.</td>
+ <td>Mendefinisikan beberapa fungsi terkait manajemen pengguna, termasuk mendaftarkan pengguna baru, membuat pengguna baru, memperbarui profil pengguna, mengunggah gambar pengguna, mengubah kata sandi pengguna, mengelola peran dan izin pengguna, dan menghapus pengguna.</td>
  </tr>
  <tr>
  <td>WordsController.py</td>
- <td>The code is a Flask web application that provides a platform for users to contribute to a corpus of Indonesian language data. It includes features such as adding, editing, and deleting words, as well as classifying them based on their sentiment and intent. The application also includes a search function and pagination.</td>
+ <td>Mendefinisikan beberapa fungsi untuk mengelola resources seperti akar kata, kata berimbuhan, stopword dan lain-lain.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
+ <br>
  <details><summary>\app\helpers</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>classifying.py</td>
- <td>This code is a Python script that trains and evaluates a Support Vector Machine (SVM) model for sentiment analysis on Indonesian text. The script uses the TF-IDF vectorizer to convert text data into numerical vectors, and then trains an SVM model with the C=1, kernel=&#39;linear&#39;, and gamma=1 hyperparameters. The model is trained on a dataset of labeled Indonesian text, and the accuracy of the model is evaluated on a test set. The script also includes functions for plotting learning curves and confusion matrices.</td>
+ <td>Mendefinisikan kelas-kelas untuk melakukan pelatihan model dan analisis sentimen menggunakan algoritma Support Vector Machine (SVM) dan IndoBERT.</td>
  </tr>
  <tr>
  <td>commons.py</td>
- <td>The code defines a number of functions and classes related to pagination, email confirmation, and database queries. The primary function of the code appears to be to provide a set of tools for working with paginated data, including generating pagination links and filtering results based on search criteria. Additionally, the code includes functionality for sending emails and retrieving data from a database using SQLAlchemy.</td>
+ <td>Mendefinisikan sejumlah fungsi dan kelas untuk melakukan paginasi, pengiriman email, dan pengambilan data dari database menggunakan SQLAlchemy.</td>
  </tr>
  <tr>
  <td>preprocessing.py</td>
- <td>The code defines a series of functions for text preprocessing, including cleaning, tokenizing, normalizing, stemming, negation handling, and filtering. The primary function of the code is to prepare text data for further analysis in natural language processing tasks.</td>
+ <td>Mendefinisikan serangkaian fungsi untuk prapemrosesan teks, termasuk pembersihan, tokenisasi, normalisasi, stemming, penanganan negasi, dan pemfilteran. Fungsi utama kode ini adalah menyiapkan data teks untuk analisis lebih lanjut dalam tugas pemrosesan bahasa alami.</td>
  </tr>
  <tr>
  <td>scraping.py</td>
- <td>The code defines a set of functions for interacting with the YouTube API, including retrieving video information, comments, and thumbnails.</td>
+ <td>Mendefinisikan fungsi untuk melakukan pengambilan informasi dan data komentar menggunakan API YouTube.</td>
  </tr>
  <tr>
  <td>visualizing.py</td>
- <td>The code defines a function called <code>generate_wordcloud</code> that generates a word cloud based on the input text, sentiment, and ID. It also defines a function called <code>associate_data</code> that performs association rule mining on the input data using the Apriori algorithm.</td>
+ <td>Mendefinisikan fungsi untuk menggenerate awan kata.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
+ <br>
  <details><summary>\app\model</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>analysis.py</td>
- <td>The code defines a class called Analysis in the Flask app, which represents a single analysis of a YouTube video. It has several attributes, including an ID, a foreign key to the YouTube video, a user ID, and a timestamp for when the analysis was performed. It also has a relationship with the Comments class and defines a custom string representation.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan riwayat analisis yang dilakukan pengguna.</td>
  </tr>
  <tr>
  <td>comments.py</td>
- <td>The code defines a Comments class in the Flask app, which represents a comment on an analysis. It has various attributes such as id, analysis_id, title, name, comment, published_at, likes, and replies. The class also has a <strong>repr</strong> method and a to_print method that returns a dictionary of column names and their corresponding values.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan komentar video Youtube hasil proses scraping.</td>
  </tr>
  <tr>
  <td>compound.py</td>
- <td>The code defines a Compound class in the Flask app, which represents a compound word in the database. It has various attributes and relationships with other models, including Root, User, and Contributor.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data kata berimbuhan.</td>
  </tr>
  <tr>
  <td>corpus.py</td>
- <td>The code defines a Corpus class in a Flask application, with properties for text, sentiment, intent, and contributor information, as well as relationships with other classes.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data korpus yang akan digunakan untuk pelatihan model.</td>
  </tr>
  <tr>
  <td>informal.py</td>
- <td>The code defines a class Informal that represents a row in a database table, with columns for an informal word, its formal equivalent, the source of the word, the user who contributed it, and the user who edited it.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data kata informal.</td>
  </tr>
  <tr>
  <td>negasi.py</td>
- <td>The code defines a Negasi class in the app module, which represents a negated word or phrase with its source and contributor information.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data kata negasi.</td>
  </tr>
  <tr>
  <td>negative.py</td>
- <td>The code defines a Negative model class in Flask, with attributes for a kata negatif, bobot, sumber, kontributor, and editor, as well as a relationship between the model and the User model.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data kata yang mengandung sentimen negatif.</td>
  </tr>
  <tr>
  <td>positive.py</td>
- <td>The code defines a Positive model class in Flask, which represents a positive sentiment in a database.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data kata yang mengandung sentimen positif.</td>
  </tr>
  <tr>
  <td>preprocessed.py</td>
- <td>The code defines a Preprocessed class in the Flask app&#39;s database model, with properties for comment ID, casefolded, tokenized, normalized, stemmed, and filtered text, as well as a relationship with the Comments class.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data hasil preprocessing.</td>
  </tr>
  <tr>
  <td>processed.py</td>
- <td>The code defines a class Processed that represents a processed comment, with properties for the comment&#39;s ID, vectors, SVM classification, IndoBERT classification, intent, and feedback. It also includes a method to print the comment in different formats.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data hasil klasifikasi.</td>
  </tr>
  <tr>
  <td>root.py</td>
- <td>The code defines a Root class in the app module, which represents a root word in the database. It has various columns for storing data, including an ID, the root word itself, its polarity, and the source of the information. The class also defines relationships with other models, such as Compound and User, and provides a method for printing the data in a specific format.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data akar kata.</td>
  </tr>
  <tr>
  <td>stopword.py</td>
- <td>The code defines a Stopword class in the Flask app, with attributes for a stop word, its source, the user who contributed it, and the user who edited it. It also includes a to_print method to return a dictionary of the class&#39;s attributes.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data stopword.</td>
  </tr>
  <tr>
  <td>user.py</td>
- <td>The code defines a User class in a Flask application, with properties such as username, password, and name, as well as methods for setting and checking passwords, creating an admin user, and defining relationships with other models.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan data pengguna.</td>
  </tr>
  <tr>
  <td>youtube.py</td>
- <td>The code defines a class called Youtube that represents a YouTube video, with attributes for the video&#39;s ID, title, published date, description, views, likes, favorites, comments, and thumbnail.</td>
+ <td>Mendefinisikan struktur tabel untuk menyimpan informasi video Youtube.</td>
  </tr>
  <tr>
  <td>init.py</td>
- <td>The code defines a collection of classes and functions for natural language processing tasks, including text preprocessing, sentiment analysis, and topic modeling.</td>
+ <td>Berguna untuk mengatur model-model atau kelas-kelas yang digunakan dalam aplikasi.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
+ <br>
  <details><summary>\app\routes</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>auth.py</td>
- <td>The code defines a Flask Blueprint named auth with routes for user registration, password reset, account activation, and login/logout functionality.</td>
+ <td>Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi otentikasi dan otorisasi pengguna.</td>
  </tr>
  <tr>
  <td>main.py</td>
- <td>The code defines a Flask application with several routes and blueprints, including a main route that handles GET and POST requests, a search route that handles GET and POST requests, and a history route that handles GET and POST requests. The code also defines several functions for handling user feedback, training the model, and generating images.</td>
+ <td>Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi analisis.</td>
  </tr>
  <tr>
  <td>user.py</td>
- <td>The code defines a Flask blueprint named user and its routes, including profil profil/upload-img profil/update-password users user/active/<id>/<is_confirmed> user/admin/<id>/<is_admin> and user/delete/<id> It also imports various functions and classes from other modules, such as Flask&#39;s request, render_template, redirect, url_for, session, flask_login&#39;s login_required, and app.restriction&#39;s admin_required.</td>
+ <td>Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi manajemen pengguna.</td>
  </tr>
  <tr>
  <td>words.py</td>
- <td>The code defines a Flask blueprint named words and routes for various word-related endpoints, including adding, editing, and deleting words, as well as retrieving a list of words. The routes are protected by login and admin privileges using the Flask-Login and Flask-Admin libraries.</td>
+ <td>Mendefinisikan Flask Blueprint untuk mengelompokkan dekorator yang digunakan untuk memetakan URL ke fungsi pengelolaan resources.</td>
  </tr>
  </tbody></table>
  </details>
  
- <hr>
- <details><summary>\app\static\js</summary>
- 
- <table>
- <thead>
- <tr>
- <th>File</th>
- <th>Summary</th>
- </tr>
- </thead>
- <tbody><tr>
- <td>base.js</td>
- <td>The code is a JavaScript file that contains various functions and event listeners for a web application. The primary function of the code appears to be to initialize various elements on the page, such as dropdown menus, form validation, and modal windows. It also includes functions for handling user input, such as password strength checking and auto-sizing textareas.</td>
- </tr>
- <tr>
- <td>main.js</td>
- <td>The code is a JavaScript file that defines various functions and event listeners for a website. It appears to be using the Bootstrap framework, as it includes classes such as avbar-mobile and scrolled-offset The code also includes functionality for a preloader, a back-to-top button, and a portfolio slider. Additionally, it includes a type effect and a lightbox for displaying images in a modal window. Overall, the code appears to be responsible for creating a responsive and interactive user experience for a website.</td>
- </tr>
- </tbody></table>
- </details>
- 
- <hr>
+ <br>
  <details><summary>\app\utils</summary>
  
  <table>
  <thead>
  <tr>
  <th>File</th>
- <th>Summary</th>
+ <th>Fungsi</th>
  </tr>
  </thead>
  <tbody><tr>
  <td>args_helper.py</td>
- <td>The code defines various functions and classes related to data loading, preprocessing, and evaluation for natural language processing tasks.</td>
+ <td>Mendefinisikan berbagai fungsi dan kelas yang terkait dengan pemuatan data, prapemrosesan, dan evaluasi untuk tugas pemrosesan bahasa alami.</td>
  </tr>
  <tr>
  <td>conlleval.py</td>
- <td>The code is a Python implementation of the CoNLL-2000 shared task evaluation script, which evaluates the accuracy of named entity recognition (NER) models on a given dataset. The primary function of the code is to calculate the overall and type-level metrics for the NER model, including precision, recall, and F1 score, as well as the macro-averaged precision, recall, and F1 score for each type of entity.</td>
+ <td>Merupakan implementasi Python dari skrip evaluasi tugas bersama CoNLL-2000, yang mengevaluasi keakuratan model pengenalan entitas bernama (NER) pada kumpulan data tertentu. Fungsi utama kode ini adalah menghitung metrik tingkat keseluruhan dan tipe untuk model NER, termasuk presisi, perolehan, dan skor F1, serta rata-rata makro presisi, perolehan, dan skor F1 untuk setiap jenis entitas.</td>
  </tr>
  <tr>
  <td>data_utils.py</td>
- <td>This code defines several classes that implement the <code>Dataset</code> interface in PyTorch, which is used to load and preprocess data for training machine learning models. The classes are designed to work with different types of datasets, including text classification, sentiment analysis, and aspect-based sentiment analysis.The <code>AspectExtractionDataset</code> class loads a dataset of text with aspect-level sentiment annotations and returns a tuple of subwords, sequence labels, and the original sentence. The <code>NerGritDataset</code> class loads a dataset of named entities and returns a tuple of subwords, sequence labels, and the original sentence. The <code>PosTagIdnDataset</code> class loads a dataset of part-of-speech tags and returns a tuple of subwords, sequence labels, and the original sentence. The <code>EmotionDetectionDataset</code> class loads a dataset of emotions and returns a tuple of subwords, sequence labels, and the original sentence. The <code>EntailmentDataset</code> class loads a dataset of entailment and returns a tuple of subwords, sequence labels, and the original sentence. The <code>DocumentSentimentDataset</code> class loads a dataset of document sentiment and returns a tuple of subwords, sequence labels, and the original sentence. The <code>KeywordExtractionDataset</code> class loads a dataset of keyword extraction and returns a tuple of subwords, sequence labels, and the original sentence. The `Q</td>
+ <td>Mendefinisikan beberapa kelas yang digunakan pada PyTorch untuk memuat dan melakukan praproses data untuk melatih model pembelajaran mesin. Kelas-kelas tersebut dirancang untuk bekerja dengan berbagai jenis kumpulan data, termasuk klasifikasi teks, analisis sentimen, dan analisis sentimen berbasis aspek. Kelas `AspectExtractionDataset` memuat kumpulan data teks dengan anotasi sentimen tingkat aspek dan mengembalikan tupel subkata, urutan label, dan kalimat aslinya. Kelas `NerGritDataset` memuat kumpulan data entitas bernama dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `PosTagIdnDataset` memuat kumpulan data tag part-of-speech dan mengembalikan serangkaian subkata, label urutan, dan kalimat asli. Kelas `EmotionDetectionDataset` memuat kumpulan data emosi dan mengembalikan serangkaian subkata, label urutan, dan kalimat asli. Kelas `EntailmentDataset` memuat kumpulan data yang diperlukan dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `DocumentSentimentDataset` memuat kumpulan data sentimen dokumen dan mengembalikan tupel subkata, label urutan, dan kalimat asli. Kelas `KeywordExtractionDataset` memuat kumpulan data ekstraksi kata kunci dan mengembalikan tupel subkata, label urutan, dan kalimat asli.</td>
  </tr>
  <tr>
  <td>forward_fn.py</td>
- <td>The code defines three forward functions for sequence classification, word classification, and sequence multilabel classification, respectively. Each function takes in a batch of data, prepares the input and label, and then forwards the data through a model to generate predictions and calculate loss. The functions also handle the case where the input data is on GPU.</td>
+ <td>Mendefinisikan forward functions untuk klasifikasi urutan, klasifikasi kata, dan klasifikasi multilabel urutan. Setiap fungsi mengambil sekumpulan data, menyiapkan masukan dan label, lalu meneruskan data melalui model untuk menghasilkan prediksi dan menghitung kerugian. Fungsinya juga menangani kasus dimana data masukan ada pada GPU.</td>
  </tr>
  <tr>
  <td>functions.py</td>
- <td>The code defines various functions and classes related to natural language processing (NLP) tasks, including word embedding, tokenization, and model loading. The primary function of the code appears to be loading pre-trained models for NLP tasks, such as sequence classification, token classification, and multi-label classification.</td>
+ <td>Mendefinisikan berbagai fungsi dan kelas yang terkait dengan tugas pemrosesan bahasa alami (NLP), seperti klasifikasi urutan, klasifikasi token, dan klasifikasi multi-label.</td>
  </tr>
  <tr>
  <td>metrics.py</td>
- <td>The code defines a set of functions for calculating various metrics for natural language processing tasks, including emotion detection, aspect extraction, named entity recognition, part-of-speech tagging, entailment, document sentiment, keyword extraction, question answering, and news categorization. Each function takes two arguments: a list of predicted labels and a list of true labels, and returns a dictionary of metrics.</td>
+ <td>Mendefinisikan serangkaian fungsi untuk menghitung berbagai metrik untuk tugas pemrosesan bahasa alami, termasuk deteksi emosi, ekstraksi aspek, pengenalan entitas bernama, penandaan bagian ucapan, keterlibatan, sentimen dokumen, ekstraksi kata kunci, menjawab pertanyaan, dan kategorisasi berita. Setiap fungsi memerlukan dua argumen: daftar label yang diprediksi dan daftar label yang sebenarnya, serta menampilkan kamus metrik.</td>
  </tr>
  </tbody></table>
  </details>
+ <br>
  
  <hr>
- <h2 id="🚀-cara-instalasi">🚀 Cara Instalasi</h2>
+ <h2 id="🚀-langkah-instalasi">🚀 Langkah Instalasi</h2>
  <ol>
- <li>Sebelum memulai pemasangan, pastikan Python versi 3.7 ke atas sudah terinstall dan bisa diakses menggunakan terminal.</li>
+ <li>Sebelum memulai instalasi, pastikan Python versi 3.7 ke atas sudah dipasang dan bisa diakses menggunakan terminal.</li>
  <li>Aktifkan server MySQL, buat database baru dan sesuaikan informasi HOST, USER, PASSWORD, dan NAMA DATABASE pada file .env</li>
  <li>Buat lingkungan virtual dengan mengetik pada terminal <code>python -m venv env</code> </li>
  <li>Aktifkan lingkungan virtual dengan mengetik <code>env\Scripts\activate</code> (untuk windows) atau <code>source env/bin/activate</code> (untuk linux atau macOS)</li>
@@ -449,7 +434,7 @@
  <li>Login sebagai superadmin menggunakan username <code>admin@mail.com</code> dan password <code>53cr3tK3y</code></li>
  <li>Struktur menu aplikasi:</li>
  <pre><code class="language-sh">
-Beranda
+BERANDA
 ├── Tentang
 ├── Latar
 ├── Langkah
@@ -461,7 +446,7 @@ Beranda
 │   ├── Kata Negasi
 │   ├── Stopword
 │   ├── Kata Positif
-│   ├── Kata Negatif
+│   └── Kata Negatif
 ├── Analisis
 │   ├── Analisis Komentar Youtube
 │   │   └── Hasil Analisis Komentar Video
@@ -478,18 +463,27 @@ Beranda
 │   │       └── Awan Kata
 │   ├── Pelatihan Model Analisis
 │   ├── Hasil Pelatihan Sentimen
-│   ├── Hasil Pelatihan Inten
+│   └── Hasil Pelatihan Inten
 └── Login
    ├── User
    │   ├── Profil
-   │   ├── Logout
+   │   └── Logout
    └── Admin
          ├── Kelola Pengguna
          ├── Profil
          └── Logout
  </code></pre>
 </ol>
-<hr>
 
-<img src="app/static/img/homescreen.png" alt="Home Screen" />
+<hr>
+<h2 id="📸-tangkapan-layar">📸 Tangkapan Layar</h2>
+<img src="app/static/img/screenshot/home.png" alt="Home Screen" width="100%" style="border: 1px solid #000;" />
+<br>
+<img src="app/static/img/screenshot/search.png" alt="Search Screen" width="100%" style="border: 1px solid #000;" />
+<br>
+<img src="app/static/img/screenshot/result.png" alt="Search result" width="100%" style="border: 1px solid #000;" />
+<br>
+<img src="app/static/img/screenshot/analysis.png" alt="Result Screen" width="100%" style="border: 1px solid #000;" />
+<br>
+<img src="app/static/img/screenshot/wordcloud.png" alt="Wordcloud" width="100%" style="border: 1px solid #000;" />
  
