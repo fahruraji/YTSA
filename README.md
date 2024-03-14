@@ -315,13 +315,13 @@ Proyek ini mencakup berbagai file dan direktori, masing-masing dengan tujuan spe
 
 ---
 ## 📸 Screenshot
-<img src="app/static/img/screenshot/home.png" alt="Home Screen" />
 Home Screen
-<img src="app/static/img/screenshot/search.png" alt="Search Screen" />
+<img src="app/static/img/screenshot/home.png" alt="Home Screen" />
 Search Screen
-<img src="app/static/img/screenshot/result.png" alt="Search Result" />
+<img src="app/static/img/screenshot/search.png" alt="Search Screen" />
 Search Result
-<img src="app/static/img/screenshot/analysis.png" alt="Analysis Result" />
+<img src="app/static/img/screenshot/result.png" alt="Search Result" />
 Analysis Result
-<img src="app/static/img/screenshot/wordcloud.png" alt="Wordcloud" />
+<img src="app/static/img/screenshot/analysis.png" alt="Analysis Result" />
 Wordcloud
+<img src="app/static/img/screenshot/wordcloud.png" alt="Wordcloud" />
